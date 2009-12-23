@@ -41,7 +41,6 @@ class Series(models.Model):
 class Entry(models.Model):
     """ Entry Model """
     blog            = models.ForeignKey(Blog)
-    author          = models.ForeignKey(User)
     series          = models.ForeignKey(Series, blank=True, null=True)
     title           = models.CharField(max_length=255)
     creator_ip      = models.IPAddressField(blank=True, null=True)
