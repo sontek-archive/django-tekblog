@@ -1,4 +1,4 @@
-from blog.models import Blog
+from tekblog.models import Blog
 from django.views.generic.list_detail import object_list, object_detail
 
 def index(request, blog_slug, queryset, **kwargs):

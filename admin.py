@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog.models import Entry, Blog
+from tekblog.models import Entry, Blog
 
 class EntryAdmin(admin.ModelAdmin):
         prepopulated_fields = {'slug': ('title',)}
