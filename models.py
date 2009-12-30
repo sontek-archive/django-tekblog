@@ -56,6 +56,7 @@ class Entry(models.Model):
     slug            = models.SlugField()
     content         = models.TextField()
     markup          = models.CharField(max_length=3, choices=markup_choices, null=True, blank=True)
+    objects         = models.Manager()
     active_objects  = ActiveEntryManager()
     
     class Meta:
