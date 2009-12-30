@@ -3,7 +3,7 @@ from tekblog.models import Entry
 from datetime import datetime
 
 blog_dict = {
-    'queryset': Entry.objects.filter(status=2, published_on__lte=datetime.now),
+    'queryset': Entry.active_objects.all(),
 }
 
 urlpatterns = patterns('',
