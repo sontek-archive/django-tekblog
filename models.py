@@ -38,6 +38,10 @@ class Series(models.Model):
     title           = models.CharField(max_length=100)
     description     = models.TextField()
 
+class ActiveEntryManager(models.Manager):
+    def get_query_set(self):
+        return super(ActiveEntryManager, self).get_query_set().filter(status=2, published_on__lte=datetime.now)
+
 class Entry(models.Model):
     """ Entry Model """
     blog            = models.ForeignKey(Blog)
@@ -52,7 +56,8 @@ class Entry(models.Model):
     slug            = models.SlugField()
     content         = models.TextField()
     markup          = models.CharField(max_length=3, choices=markup_choices, null=True, blank=True)
-
+    active_objects  = ActiveEntryManager()
+    
     class Meta:
         verbose_name_plural = 'Entries'
 
