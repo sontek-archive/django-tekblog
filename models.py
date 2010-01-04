@@ -47,7 +47,7 @@ class Series(models.Model):
     description     = models.TextField()
 
 class ActiveEntryManager(models.Manager):
-    def get_query_set(self):
+    def published(self):
         return super(ActiveEntryManager, self).get_query_set().filter(status=2, published_on__lte=datetime.now)
 
 class Entry(models.Model):
@@ -65,10 +65,9 @@ class Entry(models.Model):
     content         = models.TextField()
     markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
     locale          = models.CharField(max_length=5, choices=entry_locales, default="en")
-    objects         = models.Manager()
+    objects         = ActiveEntryManager()
     tags            = TagField()
-    active_objects  = ActiveEntryManager()
-   
+
     def get_absolute_url(self):
         return ('entry_detail', (), {
             'locale': self.locale,
