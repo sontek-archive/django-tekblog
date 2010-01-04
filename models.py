@@ -83,4 +83,4 @@ class Entry(models.Model):
 
     class Meta:
         verbose_name_plural = 'Entries'
-        orderin = ('-pub_date',)
+        ordering = ('-pub_date',)
