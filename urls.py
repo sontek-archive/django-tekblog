@@ -7,7 +7,7 @@ blog_dict = {
 }
 
 urlpatterns = patterns('',
-    (r'^(?P<blog_slug>\w+)/$', 'tekblog.views.index', blog_dict),
-    (r'^(?P<blog_slug>\w+)/(?P<slug>\w+)/$', 'tekblog.views.detail', blog_dict),
+    (r'^(?P<blog_slug>\w+)/(?p<locale>\w+)/$', 'tekblog.views.index', blog_dict),
+    (r'^(?P<blog_slug>\w+)/(?p<locale>\w+)/(?P<slug>\w+)/$', 'tekblog.views.detail', blog_dict),
 )
 
