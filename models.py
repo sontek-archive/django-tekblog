@@ -59,7 +59,8 @@ class Entry(models.Model):
     content         = models.TextField()
     markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
     locale          = models.CharField(max_length=5, choices=entry_locales, default="en")
-    objects         = ActiveEntryManager()
+    objects         = DefaultManager()
+    active_objects  = ActiveEntryManager()
     tags            = TagField()
 
     def get_absolute_url(self):
