@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from tagging.fields import TagField
 
 """ The types of markup that are available """
 markup_choices = (
@@ -21,6 +22,7 @@ entry_locales = (
     ('en', 'English'),
     ('es', 'Espanol'),
 )
+
 class Blog(models.Model):
     """ 
         Blog Model
@@ -62,10 +64,17 @@ class Entry(models.Model):
     slug            = models.SlugField()
     content         = models.TextField()
     markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
-    locales         = models.CharField(max_length=5, choices=entry_locales)
+    locale          = models.CharField(max_length=5, choices=entry_locales, default="en")
     objects         = models.Manager()
+    tags            = TagField()
     active_objects  = ActiveEntryManager()
-    
+   
+    def get_absolute_url(self):
+        return ('entry_detail', (), {
+            'locale': self.locale,
+            'slug': self.slug,
+        })
+
     def __unicode__(self):
         return unicode(self.title)
 
