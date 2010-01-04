@@ -11,12 +11,6 @@ markup_choices = (
     ('html', 'Html'),
 )
 
-""" Allows us to preview posts before we push them live """
-status_choices = (
-    (1, 'Draft'),
-    (2, 'Public'),
-)
-
 """ Locales the blog can be translated to  """
 entry_locales = (
     ('en', 'English'),
@@ -48,7 +42,7 @@ class Series(models.Model):
 
 class ActiveEntryManager(models.Manager):
     def published(self):
-        return super(ActiveEntryManager, self).get_query_set().filter(status=2, published_on__lte=datetime.now)
+        return super(ActiveEntryManager, self).get_query_set().filter(published=True, pub_date__lte=datetime.now)
 
 class Entry(models.Model):
     """ Entry Model """
@@ -56,7 +50,7 @@ class Entry(models.Model):
     series          = models.ForeignKey(Series, blank=True, null=True)
     title           = models.CharField(max_length=255)
     creator_ip      = models.IPAddressField(blank=True, null=True)
-    status          = models.IntegerField(choices=status_choices, default=2)
+    published       = models.IntegerField(default=False)
     allow_comments  = models.BooleanField(default=True)
     created_dat     = models.DateTimeField(default=datetime.now)
     pub_date        = models.DateTimeField(default=datetime.now)
@@ -70,6 +64,7 @@ class Entry(models.Model):
 
     def get_absolute_url(self):
         return ('entry_detail', (), {
+            'blog': self.blog.slug,
             'locale': self.locale,
             'slug': self.slug,
         })
