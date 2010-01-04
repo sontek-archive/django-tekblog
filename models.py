@@ -12,12 +12,6 @@ markup_choices = (
     ('html', 'Html'),
 )
 
-# Locales the blog can be translated to
-entry_locales = (
-    ('en', 'English'),
-    ('es', 'Espanol'),
-)
-
 class Blog(models.Model):
     """ 
         Blog Model
@@ -29,6 +23,12 @@ class Blog(models.Model):
     tagline         = models.CharField(max_length=200, blank=True, null=True)
     slug            = models.SlugField(max_length=100)
     posts_per_page  = models.IntegerField(default=20)
+
+    @permalink
+    def get_absolute_url(self):
+        return ('entry_list', (), {
+            'blog_slug': self.slug,
+        })
 
     def __unicode__(self):
         return unicode(self.title)
@@ -59,7 +59,6 @@ class Entry(models.Model):
     slug            = models.SlugField()
     content         = models.TextField()
     markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
-    locale          = models.CharField(max_length=5, choices=entry_locales, default="en")
     objects         = models.Manager()
     active_objects  = ActiveEntryManager()
     tags            = TagField()
@@ -68,7 +67,6 @@ class Entry(models.Model):
     def get_absolute_url(self):
         return ('entry_detail', (), {
             'blog_slug': self.blog.slug,
-            'locale': self.locale,
             'slug': self.slug,
         })
 

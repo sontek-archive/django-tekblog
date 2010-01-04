@@ -7,11 +7,7 @@ blog_dict = {
 }
 
 urlpatterns = patterns('tekblog.views',
-    # defaults to english
-    (r'^(?P<blog_slug>[^/]+)/$', 'entry_list', blog_dict),
-    (r'^(?P<blog_slug>[^/]+)/(?P<slug>[^/]+)/$', 'entry_detail', blog_dict),
-    # allow defining the language a user wants to see
-    (r'^(?P<blog_slug>[^/]+)/(?P<locale>\w+)/$', 'entry_list', blog_dict),
-    url(r'^(?P<blog_slug>[^/]+)/(?P<locale>\w+)/(?P<slug>[^/]+)/$', 'entry_detail', blog_dict, name="entry_detail"),
+    url(r'^(?P<blog_slug>[^/]+)/$', 'entry_list', blog_dict, name='entry_list'),
+    url(r'^(?P<blog_slug>[^/]+)/(?P<slug>[^/]+)/$', 'entry_detail', blog_dict, name='entry_detail'),
 )
 
