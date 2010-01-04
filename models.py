@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import permalink
 from django.contrib.auth.models import User
 from datetime import datetime
 from tagging.fields import TagField
@@ -63,9 +64,10 @@ class Entry(models.Model):
     active_objects  = ActiveEntryManager()
     tags            = TagField()
 
+    @permalink
     def get_absolute_url(self):
         return ('entry_detail', (), {
-            'blog': self.blog.slug,
+            'blog_slug': self.blog.slug,
             'locale': self.locale,
             'slug': self.slug,
         })
