@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from tagging.fields import TagField
 
-""" The types of markup that are available """
+# The types of markup that are available
 markup_choices = (
     ('rst', 'reStructuredText'),
     ('txl', 'Textile'),
@@ -11,7 +11,7 @@ markup_choices = (
     ('html', 'Html'),
 )
 
-""" Locales the blog can be translated to  """
+# Locales the blog can be translated to
 entry_locales = (
     ('en', 'English'),
     ('es', 'Espanol'),

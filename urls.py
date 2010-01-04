@@ -7,7 +7,11 @@ blog_dict = {
 }
 
 urlpatterns = patterns('',
-    (r'^(?P<blog_slug>\w+)/(?p<locale>\w+)/$', 'tekblog.views.index', blog_dict),
-    (r'^(?P<blog_slug>\w+)/(?p<locale>\w+)/(?P<slug>\w+)/$', 'tekblog.views.detail', blog_dict),
+    # defaults to english
+    (r'^(?P<blog_slug>\w+)/$', 'tekblog.views.entry_list', blog_dict),
+    (r'^(?P<blog_slug>\w+)/(?P<slug>\w+)/$', 'tekblog.views.entry_detail', blog_dict),
+    # allow defining the language a user wants to see
+    (r'^(?P<blog_slug>\w+)/(?P<locale>\w+)/$', 'tekblog.views.entry_list', blog_dict),
+    (r'^(?P<blog_slug>\w+)/(?P<locale>\w+)/(?P<slug>\w+)/$', 'tekblog.views.entry_detail', blog_dict),
 )
 
