@@ -7,7 +7,7 @@ def entry_list(request, blog_slug):
     entries = Entry.active_objects.filter(blog=blog)
     return object_list(request, queryset=entries)
     
-def entry_detail(request, blog_slug, slug, queryset):
+def entry_detail(request, blog_slug, slug):
     """ The permalink/detail view of an entry """
     blog = Blog.objects.filter(slug=blog_slug)
     entries = Entry.active_objects.filter(blog=blog)
