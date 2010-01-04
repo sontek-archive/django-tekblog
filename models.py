@@ -50,7 +50,7 @@ class Entry(models.Model):
     series          = models.ForeignKey(Series, blank=True, null=True)
     title           = models.CharField(max_length=255)
     creator_ip      = models.IPAddressField(blank=True, null=True)
-    published       = models.IntegerField(default=False)
+    published       = models.BooleanField(default=False)
     allow_comments  = models.BooleanField(default=True)
     created_dat     = models.DateTimeField(default=datetime.now)
     pub_date        = models.DateTimeField(default=datetime.now)
