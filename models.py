@@ -7,6 +7,7 @@ markup_choices = (
     ('rst', 'reStructuredText'),
     ('txl', 'Textile'),
     ('mrk', 'Markdown'),
+    ('html', 'Html'),
 )
 
 """ Allows us to preview posts before we push them live """
@@ -15,6 +16,11 @@ status_choices = (
     (2, 'Public'),
 )
 
+""" Locales the blog can be translated to  """
+entry_locales = (
+    ('en', 'English'),
+    ('es', 'Espanol'),
+)
 class Blog(models.Model):
     """ 
         Blog Model
@@ -50,21 +56,23 @@ class Entry(models.Model):
     creator_ip      = models.IPAddressField(blank=True, null=True)
     status          = models.IntegerField(choices=status_choices, default=2)
     allow_comments  = models.BooleanField(default=True)
-    created_on      = models.DateTimeField(default=datetime.now)
-    published_on    = models.DateTimeField(default=datetime.now)
-    last_updated_on = models.DateTimeField(editable=False, null=True, blank=True)
+    created_dat     = models.DateTimeField(default=datetime.now)
+    pub_date        = models.DateTimeField(default=datetime.now)
+    update_date     = models.DateTimeField(editable=False, null=True, blank=True)
     slug            = models.SlugField()
     content         = models.TextField()
-    markup          = models.CharField(max_length=3, choices=markup_choices, null=True, blank=True)
+    markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
+    locales         = models.CharField(max_length=5, choices=entry_locales)
     objects         = models.Manager()
     active_objects  = ActiveEntryManager()
     
-    class Meta:
-        verbose_name_plural = 'Entries'
-
     def __unicode__(self):
         return unicode(self.title)
 
     def save(self):
         self.last_updated = datetime.now()
         super(Entry, self).save()
+
+    class Meta:
+        verbose_name_plural = 'Entries'
+        orderin = ('-pub_date',)
