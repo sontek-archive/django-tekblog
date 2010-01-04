@@ -7,7 +7,7 @@ blog_dict = {
 }
 
 urlpatterns = patterns('tekblog.views',
-    url(r'^(?P<blog_slug>[^/]+)/$', 'entry_list', blog_dict, name='entry_list'),
-    url(r'^(?P<blog_slug>[^/]+)/(?P<slug>[^/]+)/$', 'entry_detail', blog_dict, name='entry_detail'),
+    url(r'^(?P<blog_slug>[^/]+)/$', 'entry_list', name='entry_list'),
+    url(r'^(?P<blog_slug>[^/]+)/(?P<slug>[^/]+)/$', 'entry_detail', name='entry_detail'),
 )
 
