@@ -5,6 +5,7 @@ from datetime import datetime
 from tagging.fields import TagField
 from django.contrib.sites.models import Site
 from django_extensions.db.fields import AutoSlugField, ModificationDateTimeField, CreationDateTimeField
+from django.conf import settings
 
 # The types of markup that are available
 markup_choices = (
@@ -24,7 +25,8 @@ class Series(models.Model):
 
 class ActiveEntryManager(models.Manager):
     def published(self):
-        return super(ActiveEntryManager, self).get_query_set().filter(draft=False, published_on__lte=datetime.now)
+        return super(ActiveEntryManager, self).get_query_set().filter(draft=False, 
+                published_on__lte=datetime.now, sites__id__exact=settings.SITE_ID)
 
 class Entry(models.Model):
     """ Base class for blog entries """
