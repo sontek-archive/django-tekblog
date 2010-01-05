@@ -24,7 +24,7 @@ class Series(models.Model):
     description     = models.TextField()
 
 class ActiveEntryManager(models.Manager):
-    def published(self):
+    def get_query_set(self):
         return super(ActiveEntryManager, self).get_query_set().filter(draft=False, 
                 published_on__lte=datetime.now, sites__id__exact=settings.SITE_ID)
 
