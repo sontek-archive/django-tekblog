@@ -3,6 +3,8 @@ from django.db.models import permalink
 from django.contrib.auth.models import User
 from datetime import datetime
 from tagging.fields import TagField
+from django.contrib.sites.models import Site
+from django_extensions.db.fields import AutoSlugField, ModificationDateTimeField, CreationDateTimeField
 
 # The types of markup that are available
 markup_choices = (
@@ -11,27 +13,6 @@ markup_choices = (
     ('mrk', 'Markdown'),
     ('html', 'Html'),
 )
-
-class Blog(models.Model):
-    """ 
-        Blog Model
-        Represents an individual blog, allows us to have 
-        multiple blogs on a single site.
-    """
-    owner           = models.ForeignKey(User)
-    title           = models.CharField(max_length=100)
-    tagline         = models.CharField(max_length=200, blank=True, null=True)
-    slug            = models.SlugField(max_length=100)
-    posts_per_page  = models.IntegerField(default=20)
-
-    @permalink
-    def get_absolute_url(self):
-        return ('entry_list', (), {
-            'blog_slug': self.slug,
-        })
-
-    def __unicode__(self):
-        return unicode(self.title)
 
 class Series(models.Model):
     """ Series Model
@@ -43,40 +24,46 @@ class Series(models.Model):
 
 class ActiveEntryManager(models.Manager):
     def published(self):
-        return super(ActiveEntryManager, self).get_query_set().filter(published=True, pub_date__lte=datetime.now)
+        return super(ActiveEntryManager, self).get_query_set().filter(draft=False, published_on__lte=datetime.now)
 
 class Entry(models.Model):
-    """ Entry Model """
-    blog            = models.ForeignKey(Blog)
+    """ Base class for blog entries """
+    owner           = models.ForeignKey(User)
     series          = models.ForeignKey(Series, blank=True, null=True)
     title           = models.CharField(max_length=255)
     creator_ip      = models.IPAddressField(blank=True, null=True)
-    published       = models.BooleanField(default=False)
+    draft           = models.BooleanField(default=True)
     allow_comments  = models.BooleanField(default=True)
-    created_dat     = models.DateTimeField(default=datetime.now)
-    pub_date        = models.DateTimeField(default=datetime.now)
-    update_date     = models.DateTimeField(editable=False, null=True, blank=True)
-    slug            = models.SlugField()
+    slug            = AutoSlugField(populate_from=title)
     content         = models.TextField()
     markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
     objects         = models.Manager()
     active_objects  = ActiveEntryManager()
     tags            = TagField()
+    sites           = models.ManyToManyField(Site)
+
+    # Dates
+    created_on      = CreationDateTimeField(default=datetime.now)
+    published_on    = models.DateTimeField(default=datetime.now)
+    modified_on     = ModificationDateTimeField()
+
+
+    # SEO
+    keywords        = models.CharField(max_length=200, null=True, blank=True)
+    description     = models.TextField(null=True, blank=True)
+
+    # Used to display "You might be interested in..."
+    related_content = models.ManyToManyField('self', null=True, blank=True)
 
     @permalink
     def get_absolute_url(self):
         return ('entry_detail', (), {
-            'blog_slug': self.blog.slug,
             'slug': self.slug,
         })
 
     def __unicode__(self):
         return unicode(self.title)
 
-    def save(self):
-        self.last_updated = datetime.now()
-        super(Entry, self).save()
-
     class Meta:
         verbose_name_plural = 'Entries'
-        ordering = ('-pub_date',)
+        ordering = ('-published_on',)

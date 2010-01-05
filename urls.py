@@ -2,12 +2,12 @@ from django.conf.urls.defaults import *
 from tekblog.models import Entry
 from datetime import datetime
 
-blog_dict = {
+active_entries = {
     'queryset': Entry.active_objects,
 }
 
-urlpatterns = patterns('tekblog.views',
-    url(r'^(?P<blog_slug>[^/]+)/$', 'entry_list', name='entry_list'),
-    url(r'^(?P<blog_slug>[^/]+)/(?P<slug>[^/]+)/$', 'entry_detail', name='entry_detail'),
+urlpatterns = patterns('django.views.generic.list_detail',
+    url(r'^$', 'object_list', active_entries, name='entry_list'),
+    url(r'^(?P<slug>[^/]+)/$', 'object_detail', active_entries, name='entry_detail'),
 )
 
