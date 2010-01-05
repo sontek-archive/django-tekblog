@@ -34,7 +34,7 @@ class Entry(models.Model):
     creator_ip      = models.IPAddressField(blank=True, null=True)
     draft           = models.BooleanField(default=True)
     allow_comments  = models.BooleanField(default=True)
-    slug            = AutoSlugField(populate_from=title)
+    slug            = AutoSlugField(populate_from='title')
     content         = models.TextField()
     markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
     objects         = models.Manager()
