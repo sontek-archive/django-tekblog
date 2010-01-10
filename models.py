@@ -24,9 +24,9 @@ class Series(models.Model):
     description     = models.TextField()
 
 class ActiveEntryManager(models.Manager):
-    def get_query_set(self):
-        return super(ActiveEntryManager, self).get_query_set().filter(draft=False, 
-                published_on__lte=datetime.now, sites__id__exact=settings.SITE_ID)
+    def active(self):
+        return self.filter(draft=False, published_on__lte=datetime.now, 
+                sites__id__exact=settings.SITE_ID)
 
 class Entry(models.Model):
     """ Base class for blog entries """
@@ -39,8 +39,7 @@ class Entry(models.Model):
     slug            = AutoSlugField(populate_from='title')
     content         = models.TextField()
     markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
-    objects         = models.Manager()
-    active_objects  = ActiveEntryManager()
+    objects         = ActiveEntryManager()
     tags            = TagField()
     sites           = models.ManyToManyField(Site)
 
