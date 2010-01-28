@@ -6,6 +6,7 @@ from tagging.fields import TagField
 from django.contrib.sites.models import Site
 from django_extensions.db.fields import AutoSlugField, ModificationDateTimeField, CreationDateTimeField
 from django.conf import settings
+from django_markup.fields import MarkupField
 
 # The types of markup that are available
 markup_choices = (
@@ -38,7 +39,7 @@ class Entry(models.Model):
     allow_comments  = models.BooleanField(default=True)
     slug            = AutoSlugField(populate_from='title')
     content         = models.TextField()
-    markup          = models.CharField(max_length=4, choices=markup_choices, null=True, blank=True)
+    markup          = MarkupField(default='restructuredtext')
     objects         = ActiveEntryManager()
     tags            = TagField()
     sites           = models.ManyToManyField(Site)
