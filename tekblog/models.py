@@ -6,15 +6,9 @@ from tagging.fields import TagField
 from django.contrib.sites.models import Site
 from django_extensions.db.fields import AutoSlugField, ModificationDateTimeField, CreationDateTimeField
 from django.conf import settings
-from django_markup.fields import MarkupField
+from utils import Formatter
 
-# The types of markup that are available
-markup_choices = (
-    ('rst', 'reStructuredText'),
-    ('txl', 'Textile'),
-    ('mrk', 'Markdown'),
-    ('html', 'Html'),
-)
+formatter = Formatter()
 
 class Series(models.Model):
     """ Series Model
@@ -33,13 +27,15 @@ class Entry(models.Model):
     """ Base class for blog entries """
     owner           = models.ForeignKey(User)
     series          = models.ForeignKey(Series, blank=True, null=True)
+    featured        = models.BooleanField(default=False)
     title           = models.CharField(max_length=255)
     creator_ip      = models.IPAddressField(blank=True, null=True)
     draft           = models.BooleanField(default=True)
     allow_comments  = models.BooleanField(default=True)
     slug            = AutoSlugField(populate_from='title')
     content         = models.TextField()
-    markup          = MarkupField(default='restructuredtext')
+    html_content    = models.TextField(editable=False, blank=True)
+    markup          = models.CharField(max_length=4, choices=formatter.MARKUP_CHOICES)
     objects         = ActiveEntryManager()
     tags            = TagField()
     sites           = models.ManyToManyField(Site)
@@ -49,13 +45,16 @@ class Entry(models.Model):
     published_on    = models.DateTimeField(default=datetime.now)
     modified_on     = ModificationDateTimeField()
 
-
     # SEO
     keywords        = models.CharField(max_length=200, null=True, blank=True)
     description     = models.TextField(null=True, blank=True)
 
     # Used to display "You might be interested in..."
     related_content = models.ManyToManyField('self', null=True, blank=True)
+
+    def save(self):
+        self.html_content = formatter.format(self.markup, self.content) 
+        super(Entry, self).save()
 
     @permalink
     def get_absolute_url(self):
