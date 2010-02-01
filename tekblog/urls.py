@@ -1,13 +1,9 @@
 from django.conf.urls.defaults import *
-from tekblog.models import Entry
 from datetime import datetime
+from tekblog.views import index, detail
 
-active_entries = {
-    'queryset': Entry.objects.active(),
-}
-
-urlpatterns = patterns('django.views.generic.list_detail',
-    url(r'^$', 'object_list', active_entries, name='entry_list'),
-    url(r'^(?P<slug>[^/]+)/$', 'object_detail', active_entries, name='entry_detail'),
+urlpatterns = patterns('tekblog.views',
+        url(r'^$', index, name='tekblog_index'),
+        url(r'^(?P<slug>[^/]+)$', detail, name='tekblog_detail'),
 )
 

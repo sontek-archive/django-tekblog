@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from tagging.fields import TagField
 from django.contrib.sites.models import Site
-from django_extensions.db.fields import AutoSlugField, ModificationDateTimeField, CreationDateTimeField
 from django.conf import settings
 from utils import Formatter
 
@@ -32,7 +31,7 @@ class Entry(models.Model):
     creator_ip      = models.IPAddressField(blank=True, null=True)
     draft           = models.BooleanField(default=True)
     allow_comments  = models.BooleanField(default=True)
-    slug            = AutoSlugField(populate_from='title')
+    slug            = models.SlugField()
     content         = models.TextField()
     html_content    = models.TextField(editable=False, blank=True)
     markup          = models.CharField(max_length=4, choices=formatter.MARKUP_CHOICES)
@@ -41,9 +40,9 @@ class Entry(models.Model):
     sites           = models.ManyToManyField(Site)
 
     # Dates
-    created_on      = CreationDateTimeField(default=datetime.now)
+    created_on      = models.DateTimeField(default=datetime.now)
     published_on    = models.DateTimeField(default=datetime.now)
-    modified_on     = ModificationDateTimeField()
+    modified_on     = models.DateTimeField()
 
     # SEO
     keywords        = models.CharField(max_length=200, null=True, blank=True)
@@ -58,9 +57,9 @@ class Entry(models.Model):
 
     @permalink
     def get_absolute_url(self):
-        return ('entry_detail', (), {
-            'slug': self.slug,
-        })
+        return ('tekblog_detail', (), 
+                { 'slug': self.slug }
+        )
 
     def __unicode__(self):
         return unicode(self.title)
