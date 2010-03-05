@@ -6,6 +6,6 @@ urlpatterns = patterns('tekblog.views',
         url(r'^$', index, name='tekblog_index'),
         url(r'^(?P<slug>[^/]+)$', detail, name='tekblog_detail'),
         # support blogengine.net url's
-        url(r'^post/(?P<slug>[^/]+).aspx$', detail, name='tekblog_detail'),
+        url(r'^post/(?P<slug>[^/]+).aspx$', detail, name='tekblog_detail_be'),
         (r'^comments/', include('django.contrib.comments.urls')),
 )
