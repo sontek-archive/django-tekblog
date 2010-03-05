@@ -42,7 +42,7 @@ class Entry(models.Model):
     # Dates
     created_on      = models.DateTimeField(default=datetime.now)
     published_on    = models.DateTimeField(default=datetime.now)
-    modified_on     = models.DateTimeField()
+    modified_on     = models.DateTimeField(blank=True, null=True)
 
     # SEO
     keywords        = models.CharField(max_length=200, null=True, blank=True)

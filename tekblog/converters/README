@@ -1,0 +1,2 @@
+setting your DJANGO_SETTINGS_MODULE, in bash: export DJANGO_SETTINGS_MODULE=tekpress
+run the converter: ./blogengine.py
