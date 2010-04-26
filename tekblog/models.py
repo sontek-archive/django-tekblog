@@ -6,6 +6,7 @@ from tagging.fields import TagField
 from django.contrib.sites.models import Site
 from django.conf import settings
 from utils import Formatter
+from django.contrib.comments.moderation import CommentModerator, moderator
 
 formatter = Formatter()
 
@@ -67,3 +68,9 @@ class Entry(models.Model):
     class Meta:
         verbose_name_plural = 'Entries'
         ordering = ('-published_on',)
+
+class EntryModerator(CommentModerator):
+    email_notification = True
+    enable_field = 'allow_comments'
+
+moderator.register(Entry, EntryModerator)
