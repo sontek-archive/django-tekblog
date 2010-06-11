@@ -11,11 +11,12 @@
 # Ensure that you have the following installed apps for this to function:
 
 INSTALLED_APPS = (
-    "django.contrib.auth",
-    "django.contrib.sites",
-    "django.contrib.comments",
-    "tagging",
-    "haystack",
+    'django.contrib.auth',
+    'django.contrib.sites',
+    'django.contrib.comments',
+    'tagging',
+    'haystack',
+    'tekblog',
 )
 
 # For haystack to function, you will need to have the settings:
