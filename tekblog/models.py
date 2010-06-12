@@ -18,6 +18,10 @@ class Series(models.Model):
     title           = models.CharField(max_length=100)
     description     = models.TextField()
 
+    class Meta:
+        verbose_name_plural = 'Series'
+
+
 class ActiveEntryManager(models.Manager):
     def active(self):
         return self.filter(draft=False, published_on__lte=datetime.now, 
