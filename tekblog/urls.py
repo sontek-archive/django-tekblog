@@ -10,5 +10,5 @@ urlpatterns = patterns('tekblog.views',
         # support blogengine.net url's
         url(r'^post/(?P<slug>[-\w\(\)]+).aspx$', detail, name='tekblog_detail_be'),
         (r'^comments/', include('django.contrib.comments.urls')),
-        (r'^latest/feeds/$', LatestEntriesFeed()),
+        (r'^feeds/latest/$', LatestEntriesFeed()),
 )
