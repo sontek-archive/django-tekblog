@@ -30,7 +30,7 @@ def search(request, template='tekblog/search.html'):
     # leverage the haystack filter on the title, content and tags
     if request.GET:
         stop_word_list = re.compile(STOP_WORDS, re.IGNORECASE)
-        query = '%s' request.GET['q']
+        query = '%s' % request.GET['q']
         clean_search = stop_word_list.sub('', query)
         clean_search = clean_search.strip()
         if len(clean_data) != 0:
