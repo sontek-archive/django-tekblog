@@ -1,0 +1,33 @@
+# This provides for an app that is a slim version of a blog inspired by 
+# django mingus. This includes a blog that provides for series, tagging, 
+# draft/published, search, feeds, 'related posts', featured and paginator.
+
+# The base views include:
+# index, detail, search
+
+# Index uses the paginator from django.core
+# Search leverages haystack.
+
+# Ensure that you have the following installed apps for this to function:
+
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.sites',
+    'django.contrib.comments',
+    'tagging',
+    'haystack',
+    'tekblog',
+)
+
+# For haystack to function, you will need to have the settings:
+HAYSTACK_SITECONF = 'yourpackage.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_ROOT, 'haystack')
+
+# yourpackage.search should refer to a search.py within your site dir
+# search.py is what allows haystack to autodiscover
+import haystack
+haystack.autodiscover()
+
+# You will also need to create the actual index folder for haystack
+# that is located on the path you provided above for whoosh

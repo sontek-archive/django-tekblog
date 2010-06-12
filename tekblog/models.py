@@ -21,7 +21,6 @@ class Series(models.Model):
     class Meta:
         verbose_name_plural = 'Series'
 
-
 class ActiveEntryManager(models.Manager):
     def active(self):
         return self.filter(draft=False, published_on__lte=datetime.now, 
