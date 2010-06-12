@@ -9,7 +9,6 @@ class EntryIndex(SearchIndex):
     title       = CharField(model_attr='title')
     content     = CharField(model_attr='content')
     tags        = CharField(model_attr='tags')
-    entry       = IntegerField(model_attr='entry__id')
 
 site.register(Entry, EntryIndex)
 
