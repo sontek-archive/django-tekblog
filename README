@@ -24,8 +24,8 @@ HAYSTACK_SITECONF = 'yourpackage.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_ROOT, 'haystack')
 
-# yourpackage.search should refer to a search.py within your site dir
-# search.py is what allows haystack to autodiscover
+# yourpackage.search_sites should refer to a search_sites.py within your site dir
+# search_sites.py is what allows haystack to autodiscover
 import haystack
 haystack.autodiscover()
 
