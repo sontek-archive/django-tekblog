@@ -1,4 +1,3 @@
-import pdb
 try:
     import markdown
 except:
@@ -25,7 +24,6 @@ class Formatter:
     def format(self, format, text):
         soup = BeautifulSoup(text)
         code_blocks = soup.findAll(u'code')
-        pdb.set_trace() ############################## Breakpoint ##############################
 
         # Put place holder blocks
         for block in code_blocks:
