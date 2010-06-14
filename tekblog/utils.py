@@ -1,3 +1,4 @@
+import pdb
 try:
     import markdown
 except:
@@ -12,6 +13,8 @@ from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, guess_lexer
 from BeautifulSoup import BeautifulSoup
+from django.conf import settings
+from re import compile
 
 class Formatter:
     # The types of markup that are available
@@ -38,7 +41,16 @@ class Formatter:
         elif format == 'mrk':
             text = self.markdown(str(soup))
 
+
         soup = BeautifulSoup(text)
+
+        # Find all instances of img tokens where the class has replace-media-url
+        # replace all {{ MEDIA_URL }} tokens within the src on that img token
+        images = soup.findAll('img', attrs={'class':re.compile(r'.+replace-media-url')})
+        for image in images:
+            if image.has_key('src') and image['src'].startswith('{{ MEDIA_URL }}'):
+                image['src'] = image['src'].replace('{{ MEDIA_URL }}', settings.MEDIA_URL)
+
         index = 0
         empty_code_blocks = soup.findAll('code', 'removed')
         formatter = HtmlFormatter(linenos=False, cssclass='source')
