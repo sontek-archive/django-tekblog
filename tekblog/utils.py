@@ -1,3 +1,4 @@
+import pdb
 try:
     import markdown
 except:
@@ -8,6 +9,11 @@ try:
 except:
     pass
 
+from pygments import highlight
+from pygments.formatters import HtmlFormatter
+from pygments.lexers import get_lexer_by_name, guess_lexer
+from BeautifulSoup import BeautifulSoup
+
 class Formatter:
     # The types of markup that are available
     MARKUP_CHOICES = (
@@ -17,14 +23,53 @@ class Formatter:
         ('mrk', 'Markdown'),
     )
     def format(self, format, text):
+        soup = BeautifulSoup(text)
+        code_blocks = soup.findAll(u'code')
+        pdb.set_trace() ############################## Breakpoint ##############################
+
+        # Put place holder blocks
+        for block in code_blocks:
+            block.replaceWith(u'<code class="removed"></code>')
+
         if format == 'none':
-            return text 
+            text = str(soup) 
         elif format == 'brk':
-            return self.linebreaks(text)
+            text = self.linebreaks(str(soup))
         elif format == 'txl':
-            return self.textile(text)
+            text = self.textile(str(soup))
         elif format == 'mrk':
-            return self.markdown(text)
+            text = self.markdown(str(soup))
+
+        soup = BeautifulSoup(text)
+        index = 0
+        empty_code_blocks = soup.findAll('code', 'removed')
+        formatter = HtmlFormatter(linenos=True, cssclass='source')
+
+        for block in code_blocks:
+            if block.has_key('class'):
+                language = block['class']
+
+        if language:
+            try:
+                lexer = get_lexer_by_name(language, stripnl=True, encoding='UTF-8')
+            except ValueError, e:
+                try:
+                    lexer = guess_lexer(block.renderContents())
+                except ValueError, e:
+                    lexer = get_lexer_by_name('text', stripnl=True, encoding='UTF-8')
+
+        else:
+            try:
+                lexer = guess_lexer(block.renderContents())
+            except ValueError, e:
+                lexer = get_lexer_by_name('text', stripnl=True, encoding='UTF-8')
+
+        empty_code_blocks[index].replaceWith(
+                highlight(block.renderContents(), lexer, formatter))
+
+        index = index + 1
+
+        return str(soup)
 
     def markdown(self, text):
         return markdown.markdown(text)
