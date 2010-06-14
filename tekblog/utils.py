@@ -41,8 +41,9 @@ class Formatter:
         soup = BeautifulSoup(text)
         index = 0
         empty_code_blocks = soup.findAll('code', 'removed')
-        formatter = HtmlFormatter(linenos=True, cssclass='source')
+        formatter = HtmlFormatter(linenos=False, cssclass='source')
 
+        language = None
         for block in code_blocks:
             if block.has_key('class'):
                 language = block['class']

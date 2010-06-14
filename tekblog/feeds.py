@@ -11,6 +11,9 @@ class LatestEntriesFeed(Feed):
 
     def items(self):
         return Entry.objects.active()
+    
+    def item_title(self, item):
+        return item.title
 
     def item_description(self, item):
         return item.html_content
