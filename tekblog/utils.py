@@ -60,25 +60,25 @@ class Formatter:
             if block.has_key('class'):
                 language = block['class']
 
-        if language:
-            try:
-                lexer = get_lexer_by_name(language, stripnl=True, encoding='UTF-8')
-            except ValueError, e:
+            if language:
+                try:
+                    lexer = get_lexer_by_name(language, stripnl=True, encoding='UTF-8')
+                except ValueError, e:
+                    try:
+                        lexer = guess_lexer(block.renderContents())
+                    except ValueError, e:
+                        lexer = get_lexer_by_name('text', stripnl=True, encoding='UTF-8')
+
+            else:
                 try:
                     lexer = guess_lexer(block.renderContents())
                 except ValueError, e:
                     lexer = get_lexer_by_name('text', stripnl=True, encoding='UTF-8')
 
-        else:
-            try:
-                lexer = guess_lexer(block.renderContents())
-            except ValueError, e:
-                lexer = get_lexer_by_name('text', stripnl=True, encoding='UTF-8')
+            empty_code_blocks[index].replaceWith(
+                    highlight(block.renderContents(), lexer, formatter))
 
-        empty_code_blocks[index].replaceWith(
-                highlight(block.renderContents(), lexer, formatter))
-
-        index = index + 1
+            index = index + 1
 
         return str(soup)
 
