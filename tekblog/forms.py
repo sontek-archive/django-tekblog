@@ -3,7 +3,7 @@ from django.db.models import Q
 
 class EntrySearchForm(SearchForm):
     def search(self):
-        sqs = self.searchqueryset
+        sqs = self.searchqueryset#super(EntrySearchForm, self).search()
         if self.cleaned_data['q']:
             text = self.cleaned_data['q']
             sqs = sqs.filter(
@@ -11,4 +11,4 @@ class EntrySearchForm(SearchForm):
                         Q(title__icontains=text) |
                         Q(content__icontains=text) |
                         Q(tags__icontains=text))
-        return sqs
+        return sqs.highlight()

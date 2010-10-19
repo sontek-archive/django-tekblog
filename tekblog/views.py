@@ -27,11 +27,10 @@ def search(request, template='tekblog/search.html'):
     searchqueryset = SearchQuerySet().models(Entry)
     results = EmptySearchQuerySet()
 
-    if request.GET.get('q') or request.GET.get('status'):
+    if request.GET.get('q'):
         form = EntrySearchForm(request.GET, searchqueryset=searchqueryset, load_all=True)
-
         if form.is_valid():
-            query = True 
+            query = request.GET.get('q') 
             results = form.search()
             paginator = Paginator(results, 1000)
     else:
