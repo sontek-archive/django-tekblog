@@ -33,7 +33,7 @@ def search(request, template='tekblog/search.html'):
         form = EntrySearchForm(request.GET, searchqueryset=searchqueryset, load_all=True)
         if form.is_valid():
             query = request.GET.get('q') 
-            results = form.search()
+            results = form.search(is_staff=request.user.is_staff)
             paginator = Paginator(results, 1000)
     else:
         form = EntrySearchForm(searchqueryset=searchqueryset, load_all=True)
