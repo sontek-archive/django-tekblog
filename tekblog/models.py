@@ -23,9 +23,12 @@ class Series(models.Model):
         verbose_name_plural = 'Series'
 
 class ActiveEntryManager(models.Manager):
-    def active(self):
-        return self.filter(draft=False, published_on__lte=datetime.now, 
-                sites__id__exact=settings.SITE_ID)
+    def active(self, is_staff=False):
+        if is_staff:
+            return self.filter(sites__id__exact=settings.SITE_ID)
+        else:
+            return self.filter(draft=False, published_on__lte=datetime.now, 
+                    sites__id__exact=settings.SITE_ID)
 
 class Entry(models.Model):
     """ Base class for blog entries """
