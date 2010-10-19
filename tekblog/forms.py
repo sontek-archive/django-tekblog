@@ -7,7 +7,8 @@ class EntrySearchForm(SearchForm):
         if self.cleaned_data['q']:
             text = self.cleaned_data['q']
             sqs = sqs.filter(
-                        Q(title__contains=text) |
-                        Q(content__contains=text) |
-                        Q(tags__contains=text))
+                        Q(text__icontains=text) |
+                        Q(title__icontains=text) |
+                        Q(content__icontains=text) |
+                        Q(tags__icontains=text))
         return sqs
