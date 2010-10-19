@@ -1,4 +1,3 @@
-import pdb
 try:
     import markdown
 except:
@@ -9,12 +8,12 @@ try:
 except:
     pass
 
+import re
 from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name, guess_lexer
 from BeautifulSoup import BeautifulSoup
 from django.conf import settings
-from re import compile
 
 class Formatter:
     # The types of markup that are available
