@@ -7,7 +7,7 @@ from django.core.paginator import Paginator
 from haystack.views import SearchView
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 from tekblog.forms import EntrySearchForm
-
+from django.core import InvalidPage
 def index(request, page=1, template='tekblog/index.html'):
     paginator = Paginator(Entry.objects.active(), 5)
     pager = paginator.page(page)
