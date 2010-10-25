@@ -19,6 +19,9 @@ class Series(models.Model):
     title           = models.CharField(max_length=100)
     description     = models.TextField()
 
+    def __unicode__(self):
+        return unicode(self.title)
+
     class Meta:
         verbose_name_plural = 'Series'
 
