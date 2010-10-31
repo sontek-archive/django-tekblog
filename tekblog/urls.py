@@ -5,12 +5,12 @@ from tekblog.feeds import LatestEntriesFeed
 
 urlpatterns = patterns('tekblog.views',
         url(r'^$', index, name='tekblog_index'),
-        url(r'^topic/(?P<topic>[-\w(\(\)\.]+)/?$', index, name='tekblog_index'),
+        url(r'^topic/(?P<topic>[^/]*)/?$', index, name='tekblog_index'),
         url(r'^search/$', search, name='tekblog_search'),
         url(r'^(?P<page>\d*)/?$', index, name='tekblog_index'),
-        url(r'^(?P<slug>[-\w\(\)]+)/?$', detail, name='tekblog_detail'),
+        url(r'^(?P<slug>[^/]*)/?$', detail, name='tekblog_detail'),
         # support blogengine.net url's
-        url(r'^post/(?P<slug>[-\w\(\)]+).aspx$', detail, name='tekblog_detail_be'),
+        url(r'^post/(?P<slug>[^/]*).aspx$', detail, name='tekblog_detail_be'),
         (r'^comments/', include('django.contrib.comments.urls')),
         (r'^feeds/latest/$', LatestEntriesFeed()),
 )
