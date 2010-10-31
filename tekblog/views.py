@@ -14,7 +14,9 @@ def index(request, page=1, topic=None, template='tekblog/index.html'):
     active_entries = Entry.objects.active(is_staff=request.user.is_staff)
 
     if topic:
-        active_entries = TaggedItem.objects.get_by_model(active_entries, topic)
+        # need to do this so django-tagging will allow muliple words in a tag
+        cleaned_topic = '"%s"' % (topic)
+        active_entries = TaggedItem.objects.get_by_model(active_entries, cleaned_topic)
 
     paginator = Paginator(active_entries, 5)
     pager = paginator.page(page)
