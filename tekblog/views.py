@@ -8,12 +8,19 @@ from haystack.views import SearchView
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 from tekblog.forms import EntrySearchForm
 from django.http import Http404
-def index(request, page=1, template='tekblog/index.html'):
-    paginator = Paginator(Entry.objects.active(is_staff=request.user.is_staff), 5)
+from tagging.models import TaggedItem
+
+def index(request, page=1, topic=None, template='tekblog/index.html'):
+    active_entries = Entry.objects.active(is_staff=request.user.is_staff)
+
+    if topic:
+        active_entries = TaggedItem.objects.get_by_model(active_entries, topic)
+
+    paginator = Paginator(active_entries, 5)
     pager = paginator.page(page)
     return render_to_response(template, {'pager': pager},
             context_instance=RequestContext(request))
-
+    
 def detail(request, slug, template='tekblog/detail.html'):
     entry = get_object_or_404(Entry, slug=slug)
     if (entry.draft and request.user.is_staff) or not entry.draft:
