@@ -5,7 +5,7 @@ from tekblog.feeds import LatestEntriesFeed
 
 urlpatterns = patterns('tekblog.views',
         url(r'^$', index, name='tekblog_index'),
-        url(r'^topic/(?P<topic>[-\w(\(\)]+)/?$', index, name='tekblog_index'),
+        url(r'^topic/(?P<topic>[-\w(\(\)\.]+)/?$', index, name='tekblog_index'),
         url(r'^search/$', search, name='tekblog_search'),
         url(r'^(?P<page>\d*)/?$', index, name='tekblog_index'),
         url(r'^(?P<slug>[-\w\(\)]+)/?$', detail, name='tekblog_detail'),
