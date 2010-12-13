@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from tekblog.models import Entry
 from django.core.paginator import Paginator, InvalidPage
-from haystack.views import SearchView
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 from tekblog.forms import EntrySearchForm
 from django.http import Http404
