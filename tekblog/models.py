@@ -67,6 +67,14 @@ class Entry(models.Model):
     # Used to display "You might be interested in..."
     related_content = models.ManyToManyField('self', null=True, blank=True)
 
+    def get_html_content(self):
+        """We can only assign allow_tags to methods"""
+        return '<a href="%s" target="_blank">%s</a><br />%s' % (
+                self.get_absolute_url(),
+                self.title, self.html_content)
+
+    get_html_content.allow_tags = True
+
     def save(self):
         self.html_content = formatter.format(self.markup, self.content)
         super(Entry, self).save()

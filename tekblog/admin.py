@@ -2,8 +2,8 @@ from django.contrib import admin
 from tekblog.models import Series, Entry
 
 class EntryAdmin(admin.ModelAdmin):
-    list_display = ('title', 'owner', 'content', 'tags', 'published_on',
-            'slug', 'draft')
+    list_display = ('get_html_content', 'tags', 'published_on',
+            'draft')
 
     fieldsets = (
         ('General', {
