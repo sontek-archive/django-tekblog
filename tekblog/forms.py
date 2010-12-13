@@ -1,9 +1,11 @@
 from haystack.forms import SearchForm
 from django.db.models import Q
 
+
 class EntrySearchForm(SearchForm):
+
     def search(self, is_staff=False):
-        sqs = self.searchqueryset#super(EntrySearchForm, self).search()
+        sqs = self.searchqueryset
         if self.cleaned_data['q']:
             text = self.cleaned_data['q']
             sqs = sqs.filter(

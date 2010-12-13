@@ -7,6 +7,4 @@ HAYSTACK_SEARCH_ENGINE = 'whoosh'
 HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_ROOT, 'haystack')
 
 # Comment Settings
-COMMENTS_APP='tekrecaptcha'
-
-
+COMMENTS_APP = 'tekrecaptcha'

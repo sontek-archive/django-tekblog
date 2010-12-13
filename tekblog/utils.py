@@ -15,6 +15,7 @@ from pygments.lexers import get_lexer_by_name, guess_lexer
 from BeautifulSoup import BeautifulSoup
 from django.conf import settings
 
+
 class Formatter:
     # The types of markup that are available
     MARKUP_CHOICES = (
@@ -23,6 +24,7 @@ class Formatter:
         ('txl', 'Textile'),
         ('mrk', 'Markdown'),
     )
+
     def format(self, format, text):
         soup = BeautifulSoup(text)
         code_blocks = soup.findAll(u'code')
@@ -32,7 +34,7 @@ class Formatter:
             block.replaceWith(u'<code class="removed"></code>')
 
         if format == 'none':
-            text = str(soup) 
+            text = str(soup)
         elif format == 'brk':
             text = self.linebreaks(str(soup))
         elif format == 'txl':
@@ -40,15 +42,20 @@ class Formatter:
         elif format == 'mrk':
             text = self.markdown(str(soup))
 
-
         soup = BeautifulSoup(text)
 
-        # Find all instances of img tokens where the class has replace-media-url
-        # replace all {{ MEDIA_URL }} tokens within the src on that img token
-        images = soup.findAll('img', attrs={'class':re.compile(r'.+replace-media-url')})
+        # Find all instances of img tokens where the class has
+        # replace-media-url replace all {{ MEDIA_URL }} tokens within the
+        # src on that img token
+        images = soup.findAll('img', attrs={
+                'class':
+                re.compile(r'.+replace-media-url')
+            })
         for image in images:
-            if image.has_key('src') and image['src'].startswith('{{ MEDIA_URL }}'):
-                image['src'] = image['src'].replace('{{ MEDIA_URL }}', settings.MEDIA_URL)
+            if 'src' in image and image['src'].startswith(
+                    '{{ MEDIA_URL }}'):
+                image['src'] = image['src'].replace(
+                        '{{ MEDIA_URL }}', settings.MEDIA_URL)
 
         index = 0
         empty_code_blocks = soup.findAll('code', 'removed')
@@ -56,23 +63,25 @@ class Formatter:
 
         language = None
         for block in code_blocks:
-            if block.has_key('class'):
+            if 'class' in block:
                 language = block['class']
 
             if language:
                 try:
-                    lexer = get_lexer_by_name(language, stripnl=True, encoding='UTF-8')
+                    lexer = get_lexer_by_name(language, stripnl=True,
+                            encoding='UTF-8')
                 except ValueError, e:
                     try:
                         lexer = guess_lexer(block.renderContents())
                     except ValueError, e:
-                        lexer = get_lexer_by_name('text', stripnl=True, encoding='UTF-8')
-
+                        lexer = get_lexer_by_name('text', stripnl=True,
+                                encoding='UTF-8')
             else:
                 try:
                     lexer = guess_lexer(block.renderContents())
                 except ValueError, e:
-                    lexer = get_lexer_by_name('text', stripnl=True, encoding='UTF-8')
+                    lexer = get_lexer_by_name('text', stripnl=True,
+                            encoding='UTF-8')
 
             empty_code_blocks[index].replaceWith(
                     highlight(block.renderContents(), lexer, formatter))
@@ -86,6 +95,6 @@ class Formatter:
 
     def textile(self, text):
         return textile.textile(text)
-    
+
     def linebreaks(self, text):
         return text.replace('\n', '<br />')

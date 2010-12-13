@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import *
 from datetime import datetime
 from tekblog.views import index, detail, search
-from tekblog.feeds import LatestEntriesFeed, TopicFeed 
+from tekblog.feeds import LatestEntriesFeed, TopicFeed
 
 urlpatterns = patterns('tekblog.views',
         url(r'^$', index, name='tekblog_index'),
