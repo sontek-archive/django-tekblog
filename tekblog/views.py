@@ -7,10 +7,12 @@ from django.core.paginator import Paginator, InvalidPage
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 from tekblog.forms import EntrySearchForm
 from django.http import Http404
+from django.conf import settings
 from tagging.models import TaggedItem
 from haystack.views import SearchView
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 
+ENTRIES_PER_PAGE = getattr(settings, 'TEKBLOG_ENTRIES_PER_PAGE', 5)
 
 def index(request, page=1, topic=None, template='tekblog/index.html'):
     active_entries = Entry.objects.active(is_staff=request.user.is_staff)
@@ -21,7 +23,7 @@ def index(request, page=1, topic=None, template='tekblog/index.html'):
         active_entries = TaggedItem.objects.get_by_model(active_entries,
                 cleaned_topic)
 
-    paginator = Paginator(active_entries, 5)
+    paginator = Paginator(active_entries, ENTRIES_PER_PAGE)
     pager = paginator.page(page)
     return render_to_response(template, {'pager': pager},
             context_instance=RequestContext(request))
