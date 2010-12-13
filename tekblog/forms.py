@@ -1,5 +1,7 @@
-from haystack.forms import SearchForm
 from django.db.models import Q
+from django import forms
+from tekblog.models import Entry
+from haystack.forms import SearchForm
 
 
 class EntrySearchForm(SearchForm):

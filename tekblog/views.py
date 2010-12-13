@@ -8,6 +8,8 @@ from haystack.query import EmptySearchQuerySet, SearchQuerySet
 from tekblog.forms import EntrySearchForm
 from django.http import Http404
 from tagging.models import TaggedItem
+from haystack.views import SearchView
+from haystack.query import EmptySearchQuerySet, SearchQuerySet
 
 
 def index(request, page=1, topic=None, template='tekblog/index.html'):
