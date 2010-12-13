@@ -2,7 +2,7 @@ from django.contrib import admin
 from tekblog.models import Series, Entry
 
 class EntryAdmin(admin.ModelAdmin):
-    list_display = ('get_html_content', 'tags', 'published_on',
+    list_display = ('title', 'get_html_content', 'tags', 'published_on',
             'draft')
 
     fieldsets = (
