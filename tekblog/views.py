@@ -3,7 +3,7 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from tekblog.models import Entry
-from django.core.paginator import Paginator, InvalidPage
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 from tekblog.forms import EntrySearchForm
 from django.http import Http404
@@ -13,6 +13,7 @@ from haystack.views import SearchView
 from haystack.query import EmptySearchQuerySet, SearchQuerySet
 
 ENTRIES_PER_PAGE = getattr(settings, 'TEKBLOG_ENTRIES_PER_PAGE', 5)
+
 
 def index(request, page=1, topic=None, template='tekblog/index.html'):
     active_entries = Entry.objects.active(is_staff=request.user.is_staff)
@@ -24,7 +25,12 @@ def index(request, page=1, topic=None, template='tekblog/index.html'):
                 cleaned_topic)
 
     paginator = Paginator(active_entries, ENTRIES_PER_PAGE)
-    pager = paginator.page(page)
+
+    try:
+        pager = paginator.page(page)
+    except InvalidPage, EmptyPage:
+        raise Http404("No such page of results!")
+
     return render_to_response(template, {'pager': pager},
             context_instance=RequestContext(request))
 
@@ -58,7 +64,7 @@ def search(request, template='tekblog/search.html'):
 
     try:
         page = paginator.page(int(request.GET.get('page', 1)))
-    except InvalidPage:
+    except InvalidPage, EmptyPage:
         raise Http404("No such page of results!")
 
     context = {

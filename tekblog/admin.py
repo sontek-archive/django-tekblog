@@ -1,6 +1,7 @@
 from django.contrib import admin
 from tekblog.models import Series, Entry
 
+
 class EntryAdmin(admin.ModelAdmin):
     list_display = ('title', 'content', 'tags', 'published_on',
             'draft')
@@ -14,7 +15,7 @@ class EntryAdmin(admin.ModelAdmin):
         ('Content', {
             'fields': ['content', 'markup', ],
             'classes': ('colM',),
-        }), 
+        }),
         ('Optional', {
             'fields': ['keywords', 'description', 'related_content'],
             'classes': ('colM', 'collapsible', 'collapse'),
