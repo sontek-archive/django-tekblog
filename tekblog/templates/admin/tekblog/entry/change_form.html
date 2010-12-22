@@ -20,6 +20,6 @@
 
 {% block object-tools %}
   <ul class="object-tools"><li><a href="history/" class="historylink">History</a></li>
-  {% if has_absolute_url %}<li><a href="{{ original.get_absolute_url }}" class="viewsitelink" target="blank">View on site</a></li>{% endif %}
+  {% if original.get_absolute_url %}<li><a href="{{ original.get_absolute_url }}" class="viewsitelink" target="blank">View on site</a></li>{% endif %}
   </ul>
 {% endblock %}
