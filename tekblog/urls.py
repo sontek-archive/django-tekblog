@@ -13,5 +13,5 @@ urlpatterns = patterns('tekblog.views',
         url(r'^post/(?P<slug>[^/]*).aspx$', detail, name='tekblog_detail_be'),
         (r'^comments/', include('django.contrib.comments.urls')),
         (r'^feeds/latest/$', LatestEntriesFeed()),
-        (r'^feeds/(?P<topic>[^/]*)/$', TopicFeed()),
+        url(r'^feeds/(?P<topic>[^/]*)/$', TopicFeed(), name='tekblog_feed'),
 )
