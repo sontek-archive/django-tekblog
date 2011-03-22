@@ -63,7 +63,7 @@ class Formatter:
 
         language = None
         for block in code_blocks:
-            if 'class' in block:
+            if block.has_key('class'):
                 language = block['class']
 
             if language:
