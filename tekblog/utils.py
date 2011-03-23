@@ -64,7 +64,6 @@ class Formatter:
             formatter = HtmlFormatter(linenos=False, cssclass='source')
             escaped_code = highlight(code_to_esc, lexer, formatter)
 
-            import pdb;pdb.set_trace()
             text = text[0:mid_index+1] + escaped_code + text[mid_index+len(code_to_esc):]
 
         soup = BeautifulSoup(text)
