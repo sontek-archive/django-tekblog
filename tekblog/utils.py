@@ -66,7 +66,7 @@ class Formatter:
 
             formatter = HtmlFormatter(linenos=False, cssclass='source')
             escaped_code = highlight(code_to_esc, lexer, formatter)
-            escaped_blocks.append(text[0:mid_index] + escaped_code + text[mid_index+len(code_to_esc):])
+            escaped_blocks.append(escaped_code)
 
         soup = BeautifulSoup(text)
         code_blocks = soup.findAll(u'code')
