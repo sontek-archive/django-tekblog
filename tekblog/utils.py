@@ -104,7 +104,6 @@ class Formatter:
         for index, escaped_block in enumerate(escaped_blocks):
             empty_code_blocks[index].replaceWith(escaped_block)
 
-        import pdb;pdb.set_trace()
         return str(soup)
 
 
