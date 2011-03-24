@@ -44,8 +44,9 @@ class Formatter:
             lang_index = text[index:mid_index+1].find('class=')
 
             if lang_index > 0:
-                language = text[index:mid_index+1][lang_index+7:mid_index-1]
+                language = text[index:mid_index+1][lang_index+len('class="'):-2]
 
+            import pdb;pdb.set_trace()
             if language:
                 try:
                     lexer = get_lexer_by_name(language, stripnl=True,
