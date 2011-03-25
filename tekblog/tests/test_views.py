@@ -162,6 +162,7 @@ class SearchViewTests(TestCase):
         all_call.assert_called_with()
         self.assertTrue(frm.called)
         self.assertFalse(frm.return_value.is_valid.called)
+        pager.assert_called_with(all_call.return_value, 1000)
 
         # Ensure that render_to_response returns all the right context variables
         self.assertTrue(r2r.called)
@@ -173,3 +174,34 @@ class SearchViewTests(TestCase):
 
         # The default results should be an empty query set
         self.assertEquals(context['results'], empty_sqs.return_value)
+
+    @patch('tekblog.views.Paginator')
+    @patch('tekblog.views.EntrySearchForm')
+    @patch('tekblog.views.EmptySearchQuerySet')
+    @patch('tekblog.views.SearchQuerySet')
+    @patch('tekblog.views.Entry.objects.all')
+    @patch('tekblog.views.RequestContext')
+    @patch('tekblog.views.render_to_response')
+    def test_search_query_no_results(self, r2r, rc, all_call, sqs, empty_sqs, frm, pager):
+        self.request.GET = {'q': 'tester'}
+        search(self.request)
+
+        # Ensure that the entry.objects.all was called,
+        # and that the search form was created and validated
+        # In addition, confirm that the pager was created from the results 
+        # of the given form.search method call
+        all_call.assert_called_with()
+        self.assertTrue(frm.called)
+        self.assertTrue(frm.return_value.is_valid.called)
+        pager.assert_called_with(frm.return_value.search.return_value, 1000)
+
+        # Ensure that render_to_response returns all the right context variables
+        self.assertTrue(r2r.called)
+        context = get_context(r2r)
+        self.assertEquals(context['form'], frm.return_value)
+        self.assertEquals(context['page'], pager.return_value.page.return_value)
+        self.assertEquals(context['paginator'], pager.return_value)
+        self.assertEquals(context['query'], 'tester')
+
+        # The results should be from the values returned from search
+        self.assertEquals(context['results'], frm.return_value.search.return_value)
