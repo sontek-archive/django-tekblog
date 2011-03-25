@@ -205,3 +205,30 @@ class SearchViewTests(TestCase):
 
         # The results should be from the values returned from search
         self.assertEquals(context['results'], frm.return_value.search.return_value)
+
+
+    @patch('tekblog.views.EntrySearchForm')
+    @patch('tekblog.views.EmptySearchQuerySet')
+    @patch('tekblog.views.SearchQuerySet')
+    @patch('tekblog.views.Entry.objects.all')
+    @patch('tekblog.views.RequestContext')
+    @patch('tekblog.views.render_to_response')
+    def test_search_query_invalid_page(self, r2r, rc, all_call, sqs, empty_sqs, frm):
+        with patch('tekblog.views.Paginator') as paginator:
+            instance = paginator.return_value
+            instance.page.side_effect = InvalidPage()
+
+            self.request.GET = {'q': 'tester'}
+            self.assertRaises(Http404, search, self.request)
+
+            # Ensure that the entry.objects.all was called,
+            # and that the search form was created and validated
+            # In addition, confirm that the pager was created from the results 
+            # of the given form.search method call
+            all_call.assert_called_with()
+            self.assertTrue(frm.called)
+            self.assertTrue(frm.return_value.is_valid.called)
+            paginator.assert_called_with(frm.return_value.search.return_value, 1000)
+
+            # Ensure that render_to_response was not called
+            self.assertFalse(r2r.called)
