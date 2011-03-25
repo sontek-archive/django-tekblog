@@ -13,15 +13,19 @@
 
 <body class="body">
     <div id="banner">
-        <nav id="user-nav">
+        <div id="user-nav">
                 <div id="user-status">
                     {% if user.is_authenticated %}
                         Welcome, {{ user }}
                     {% endif %}
+                    <form method="get" action="{% url tekblog_search%}">
+                        {{ entry_search_form.as_p }}
+                        <input type="submit" value="Search" />
+                    </form>
                 </div>
                 <h1><a href="/">My Blog!</a></h1>
             <br class="clear" />
-        </nav>
+        </div>
     </div>
 
     <div id="container">
