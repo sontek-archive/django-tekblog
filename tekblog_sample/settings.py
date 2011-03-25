@@ -104,6 +104,7 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'tekblog',
     'tagging',
+    'haystack',
 )
 
 # A sample logging configuration. The only tangible logging
