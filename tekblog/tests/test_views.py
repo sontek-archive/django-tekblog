@@ -75,23 +75,34 @@ class IndexViewTests(TestCase):
         self.request = Mock()
         self.results = Mock()
 
+
     @patch('tekblog.views.Paginator')
     @patch('tekblog.views.TaggedItem.objects.get_by_model')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
     def test_default_index(self, r2r, rc, get_by_model_call, paginator):
+        """
+        Tests that the normal flow of getting active items and rendering 
+        a response is called without a call to the get topics.
+        """
         with patch('tekblog.views.Entry.objects.active') as active_call:
             active_call.return_value = self.results
             index(self.request)
 
             self.assertTrue(active_call.called)
             self.assertFalse(get_by_model_call.called)
+            self.assertTrue(r2r.called)
+
 
     @patch('tekblog.views.Paginator')
     @patch('tekblog.views.TaggedItem.objects.get_by_model')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
     def test_default_index_topic(self, r2r, rc, get_by_model_call, paginator):
+        """
+        Tests that the normal flow of getting active items and rendering
+        a response is called in addition to using the topic.
+        """
         with patch('tekblog.views.Entry.objects.active') as active_call:
             active_call.return_value = self.results
             index(self.request, topic='Hello')
@@ -100,12 +111,18 @@ class IndexViewTests(TestCase):
 
             self.assertTrue(active_call.called)
             self.assertTrue(get_by_model_call.called)
+            self.assertTrue(r2r.called)
+
 
     @patch('tekblog.views.Entry.objects.active')
     @patch('tekblog.views.TaggedItem.objects.get_by_model')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
     def test_default_index_invalid_page(self, r2r, rc, get_by_model_call, active_call):
+        """
+        Tests that the normal flow of getting active items and rendering
+        is not done as a result of an invalid page thus returning a 404.
+        """
         with patch('tekblog.views.Paginator') as paginator:
             instance = paginator.return_value
             instance.page.side_effect = InvalidPage()
@@ -113,3 +130,4 @@ class IndexViewTests(TestCase):
             self.assertRaises(Http404, index, self.request)
             self.assertTrue(active_call.called)
             self.assertFalse(get_by_model_call.called)
+            self.assertFalse(r2r.called)
