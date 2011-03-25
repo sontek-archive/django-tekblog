@@ -2,6 +2,7 @@ from unittest import TestCase
 from mock import patch, Mock
 from django.http import Http404
 
+from tekblog.tests.test_helpers import get_context
 from tekblog.views import index, detail, search
 from django.core.paginator import InvalidPage
 
@@ -37,9 +38,9 @@ class DetailViewTests(TestCase):
             self.assertRaises(Http404, detail, self.request, self.slug)
 
 
-    @patch('tekblog.views.render_to_response')
     @patch('tekblog.views.RequestContext')
-    def test_detail_draft_entry_staff(self, renderer, request_context):
+    @patch('tekblog.views.render_to_response')
+    def test_detail_draft_entry_staff(self, r2r, request_context):
         """
         Tests that a staff viewing a draft entry can see it.
         """
@@ -49,12 +50,13 @@ class DetailViewTests(TestCase):
             self.request.user.is_staff = True
 
             detail(self.request, self.slug, template=self.details_template)
-            self.assertTrue(renderer.called)
+            self.assertTrue(r2r.called)
+            self.assertTrue(get_context(r2r).has_key('entry'))
 
 
-    @patch('tekblog.views.render_to_response')
     @patch('tekblog.views.RequestContext')
-    def test_detail_not_draft_staff(self, renderer, request_context):
+    @patch('tekblog.views.render_to_response')
+    def test_detail_not_draft_staff(self, r2r, request_context):
         """
         Tests that a anyone viewing an entry can see it.
         """
@@ -64,7 +66,8 @@ class DetailViewTests(TestCase):
             self.request.user.is_staff = False
 
             detail(self.request, self.slug, template=self.details_template)
-            self.assertTrue(renderer.called)
+            self.assertTrue(r2r.called)
+            self.assertTrue(get_context(r2r).has_key('entry'))
 
 
 class IndexViewTests(TestCase):
@@ -92,6 +95,7 @@ class IndexViewTests(TestCase):
             self.assertTrue(active_call.called)
             self.assertFalse(get_by_model_call.called)
             self.assertTrue(r2r.called)
+            self.assertTrue(get_context(r2r).has_key('pager'))
 
 
     @patch('tekblog.views.Paginator')
@@ -112,6 +116,7 @@ class IndexViewTests(TestCase):
             self.assertTrue(active_call.called)
             self.assertTrue(get_by_model_call.called)
             self.assertTrue(r2r.called)
+            self.assertTrue(get_context(r2r).has_key('pager'))
 
 
     @patch('tekblog.views.Entry.objects.active')
@@ -131,3 +136,9 @@ class IndexViewTests(TestCase):
             self.assertTrue(active_call.called)
             self.assertFalse(get_by_model_call.called)
             self.assertFalse(r2r.called)
+
+
+class SearchViewTests(TestCase):
+    """
+    Tests basic view functionality within the search.
+    """
