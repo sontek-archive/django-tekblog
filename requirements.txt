@@ -1,5 +1,5 @@
 # Requirements installed via pip
-django==1.2.1
+django
 BeautifulSoup>=3.0.8
 django-tagging>=0.3
 django-haystack==1.0.1-final
