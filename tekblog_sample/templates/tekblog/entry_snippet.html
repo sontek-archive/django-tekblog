@@ -1,0 +1,16 @@
+{% load comments %}
+{% load tagging_tags %}
+{% tags_for_object entry as tag_list %}
+<div class="article">
+    <h4>by {{ entry.owner }} {% if entry.owner.first_name %} ({{ entry.owner.first_name }} {{ entry.owner.last_name }}) {% endif %}</h4>
+    Topics:
+    {% for tag in tag_list %}
+        <a href="{% url tekblog_index tag|urlencode %}">{{ tag }}</a>
+    {% endfor %}
+    {% get_comment_count for entry as comment_count %}<br />
+    <a href="{{ entry.get_absolute_url}}#responses">{{ comment_count }} Comments</a>
+    <div style="clear:both;"></div>
+    <div class="articleBody">
+        {{ entry.html_content|safe }}
+    </div>
+</div>
