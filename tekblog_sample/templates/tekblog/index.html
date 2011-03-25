@@ -4,7 +4,6 @@
     {% load tagging_tags %}
     {% if pager.object_list %}
         {% for entry in pager.object_list %}
-            {% tags_for_object entry as tag_list %}
             <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
             {% include "tekblog/entry_snippet.html" %}
         {% endfor %}

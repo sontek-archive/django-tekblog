@@ -1,5 +1,6 @@
 {% load comments %}
 {% load tagging_tags %}
+{% tags_for_object entry as tag_list %}
 <div class="article">
     <h4>by {{ entry.owner }} {% if entry.owner.first_name %} ({{ entry.owner.first_name }} {{ entry.owner.last_name }}) {% endif %}</h4>
     Topics:
