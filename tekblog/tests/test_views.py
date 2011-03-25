@@ -12,19 +12,6 @@ class DetailViewTests(TestCase):
     def setUp(self):
         self.request = Mock()
         self.entry = Mock()
-
-        args = {'draft': True}
-        self.draft_entry = configure_mock(None, **args)
-
-        args = {'draft': False}
-        self.entry = configure_mock(None, **args)
-
-        args = {'user.is_staff': True}
-        self.staff_request = configure_mock(None, **args)
-
-        args = {'user.is_staff': False}
-        self.request = configure_mock(None, **args)
-
         self.slug = 'Hello world'
         self.details_template = Mock()
 
@@ -41,7 +28,13 @@ class DetailViewTests(TestCase):
         Tests that the draft entry raises an Http404 for normal users.
         """
         with patch('tekblog.views.get_object_or_404') as getter:
-            getter.return_value = self.draft_entry
+            getter.return_value = self.entry
+            self.entry.draft = True
+            self.assertEqual(True, self.entry.draft)
+
+            self.request.user.is_staff = False
+            self.assertEqual(False, self.request.user.is_staff)
+
             self.assertRaises(Http404, detail, self.request, self.slug)
 
     @patch('tekblog.views.render_to_response')
@@ -51,8 +44,14 @@ class DetailViewTests(TestCase):
         Tests that a staff viewing a draft entry can see it.
         """
         with patch('tekblog.views.get_object_or_404') as getter:
-            getter.return_value = self.draft_entry
-            detail(self.staff_request, self.slug, template=self.details_template)
+            getter.return_value = self.entry
+            self.entry.draft = True
+            self.assertEqual(True, self.entry.draft)
+
+            self.request.user.is_staff = True
+            self.assertEqual(True, self.request.user.is_staff)
+
+            detail(self.request, self.slug, template=self.details_template)
             self.assertTrue(renderer.called)
 
     @patch('tekblog.views.render_to_response')
@@ -63,5 +62,11 @@ class DetailViewTests(TestCase):
         """
         with patch('tekblog.views.get_object_or_404') as getter:
             getter.return_value = self.entry
+            self.entry.draft = False
+            self.assertEqual(False, self.entry.draft)
+
+            self.request.user.is_staff = False
+            self.assertEqual(False, self.request.user.is_staff)
+
             detail(self.request, self.slug, template=self.details_template)
             self.assertTrue(renderer.called)
