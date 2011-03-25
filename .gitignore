@@ -1,6 +1,7 @@
 local_settings.py
 haystack/
 haystack_test/
+*.db
 
 *.py[co]
 
