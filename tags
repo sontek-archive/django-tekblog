@@ -1,0 +1,215 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ALLSPHINXOPTS	docs/Makefile	/^ALLSPHINXOPTS   = -d $(BUILDDIR)\/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .$/;"	m
+ALLSPHINXOPTS	docs/make.bat	/^	set ALLSPHINXOPTS=-D latex_paper_size=%PAPER% %ALLSPHINXOPTS%$/;"	v
+ALLSPHINXOPTS	docs/make.bat	/^set ALLSPHINXOPTS=-d %BUILDDIR%\/doctrees %SPHINXOPTS% .$/;"	v
+ActiveEntryManager	tekblog/models.py	/^class ActiveEntryManager(models.Manager):$/;"	c	inherits:models.Manager
+AutoSlugField	tekblog/models.py	/^from django_extensions.db.fields import AutoSlugField$/;"	i
+BUILDDIR	docs/Makefile	/^BUILDDIR      = _build$/;"	m
+BUILDDIR	docs/make.bat	/^set BUILDDIR=_build$/;"	v
+BeautifulSoup	tekblog/utils.py	/^from BeautifulSoup import BeautifulSoup$/;"	i
+BooleanField	tekblog/search_indexes.py	/^from haystack.indexes import (RealTimeSearchIndex, CharField, BooleanField)$/;"	i
+COMMENTS_APP	tekblog/settings.py	/^COMMENTS_APP = 'tekrecaptcha'$/;"	v
+CharField	tekblog/search_indexes.py	/^from haystack.indexes import (RealTimeSearchIndex, CharField, BooleanField)$/;"	i
+CommentModerator	tekblog/models.py	/^from django.contrib.comments.moderation import CommentModerator, moderator$/;"	i
+ENTRIES_PER_PAGE	tekblog/views.py	/^ENTRIES_PER_PAGE = getattr(settings, 'TEKBLOG_ENTRIES_PER_PAGE', 5)$/;"	v
+EmptyPage	tekblog/views.py	/^from django.core.paginator import Paginator, InvalidPage, EmptyPage$/;"	i
+EmptySearchQuerySet	tekblog/views.py	/^from haystack.query import EmptySearchQuerySet, SearchQuerySet$/;"	i
+Entry	tekblog/admin.py	/^from tekblog.models import Series, Entry$/;"	i
+Entry	tekblog/converters/blogengine.py	/^from tekblog.models import Entry, User, Site$/;"	i
+Entry	tekblog/feeds.py	/^from tekblog.models import Entry, Series$/;"	i
+Entry	tekblog/forms.py	/^from tekblog.models import Entry$/;"	i
+Entry	tekblog/models.py	/^class Entry(models.Model):$/;"	c	inherits:models.Model
+Entry	tekblog/search_indexes.py	/^from tekblog.models import Entry$/;"	i
+Entry	tekblog/views.py	/^from tekblog.models import Entry$/;"	i
+EntryAdmin	tekblog/admin.py	/^class EntryAdmin(admin.ModelAdmin):$/;"	c	inherits:admin.ModelAdmin
+EntryIndex	tekblog/search_indexes.py	/^class EntryIndex(RealTimeSearchIndex):$/;"	c	inherits:RealTimeSearchIndex
+EntryModerator	tekblog/models.py	/^class EntryModerator(CommentModerator):$/;"	c	inherits:CommentModerator
+EntrySearchForm	tekblog/context_processors.py	/^from tekblog.forms import EntrySearchForm$/;"	i
+EntrySearchForm	tekblog/forms.py	/^class EntrySearchForm(SearchForm):$/;"	c	inherits:SearchForm
+EntrySearchForm	tekblog/views.py	/^from tekblog.forms import EntrySearchForm$/;"	i
+Feed	tekblog/feeds.py	/^from django.contrib.syndication.views import Feed$/;"	i
+Formatter	tekblog/models.py	/^from utils import Formatter$/;"	i
+Formatter	tekblog/utils.py	/^class Formatter:$/;"	c	inherits:
+HAYSTACK_SEARCH_ENGINE	tekblog/settings.py	/^HAYSTACK_SEARCH_ENGINE = 'whoosh'$/;"	v
+HAYSTACK_SITECONF	tekblog/settings.py	/^HAYSTACK_SITECONF = 'tekblog.search_sites'$/;"	v
+HAYSTACK_WHOOSH_PATH	tekblog/settings.py	/^HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_ROOT, 'haystack')$/;"	v
+HtmlFormatter	tekblog/utils.py	/^from pygments.formatters import HtmlFormatter$/;"	i
+Http404	tekblog/views.py	/^from django.http import Http404$/;"	i
+InvalidPage	tekblog/views.py	/^from django.core.paginator import Paginator, InvalidPage, EmptyPage$/;"	i
+LatestEntriesFeed	tekblog/feeds.py	/^class LatestEntriesFeed(Feed):$/;"	c	inherits:Feed
+LatestEntriesFeed	tekblog/urls.py	/^from tekblog.feeds import LatestEntriesFeed, TopicFeed$/;"	i
+MARKUP_CHOICES	tekblog/utils.py	/^    MARKUP_CHOICES = ($/;"	v	class:Formatter
+Meta	tekblog/models.py	/^    class Meta:$/;"	c	class:Entry	inherits:
+Meta	tekblog/models.py	/^    class Meta:$/;"	c	class:Series	inherits:
+PAPER	docs/Makefile	/^PAPER         =$/;"	m
+PAPER	docs/make.bat	/^	echo.  latex      to make LaTeX files, you can set PAPER=a4 or PAPER=letter$/;"	v
+PAPEROPT_a4	docs/Makefile	/^PAPEROPT_a4     = -D latex_paper_size=a4$/;"	m
+PAPEROPT_letter	docs/Makefile	/^PAPEROPT_letter = -D latex_paper_size=letter$/;"	m
+PROJECT_ROOT	tekblog/settings.py	/^PROJECT_ROOT = os.path.dirname(__file__)$/;"	v
+Paginator	tekblog/views.py	/^from django.core.paginator import Paginator, InvalidPage, EmptyPage$/;"	i
+Q	tekblog/forms.py	/^from django.db.models import Q$/;"	i
+Q	tekblog/views.py	/^from django.db.models import Q$/;"	i
+RealTimeSearchIndex	tekblog/search_indexes.py	/^from haystack.indexes import (RealTimeSearchIndex, CharField, BooleanField)$/;"	i
+RequestContext	tekblog/views.py	/^from django.template import RequestContext$/;"	i
+SPHINXBUILD	docs/Makefile	/^SPHINXBUILD   = sphinx-build$/;"	m
+SPHINXBUILD	docs/make.bat	/^	set SPHINXBUILD=sphinx-build$/;"	v
+SPHINXOPTS	docs/Makefile	/^SPHINXOPTS    =$/;"	m
+SearchForm	tekblog/forms.py	/^from haystack.forms import SearchForm$/;"	i
+SearchQuerySet	tekblog/views.py	/^from haystack.query import EmptySearchQuerySet, SearchQuerySet$/;"	i
+SearchView	tekblog/views.py	/^from haystack.views import SearchView$/;"	i
+Series	tekblog/admin.py	/^from tekblog.models import Series, Entry$/;"	i
+Series	tekblog/feeds.py	/^from tekblog.models import Entry, Series$/;"	i
+Series	tekblog/models.py	/^class Series(models.Model):$/;"	c	inherits:models.Model
+Site	tekblog/converters/blogengine.py	/^from tekblog.models import Entry, User, Site$/;"	i
+Site	tekblog/feeds.py	/^from django.contrib.sites.models import Site$/;"	i
+Site	tekblog/models.py	/^from django.contrib.sites.models import Site$/;"	i
+Tag	tekblog/converters/blogengine.py	/^from tagging.models import Tag$/;"	i
+Tag	tekblog/feeds.py	/^from tagging.models import TaggedItem, Tag$/;"	i
+TagField	tekblog/models.py	/^from tagging.fields import TagField$/;"	i
+TaggedItem	tekblog/feeds.py	/^from tagging.models import TaggedItem, Tag$/;"	i
+TaggedItem	tekblog/views.py	/^from tagging.models import TaggedItem$/;"	i
+TopicFeed	tekblog/feeds.py	/^class TopicFeed(LatestEntriesFeed):$/;"	c	inherits:LatestEntriesFeed
+TopicFeed	tekblog/urls.py	/^from tekblog.feeds import LatestEntriesFeed, TopicFeed$/;"	i
+User	tekblog/converters/blogengine.py	/^from tekblog.models import Entry, User, Site$/;"	i
+User	tekblog/models.py	/^from django.contrib.auth.models import User$/;"	i
+VERSION	tekblog/__init__.py	/^VERSION = (0, 0, 5)$/;"	v
+__unicode__	tekblog/models.py	/^    def __unicode__(self):$/;"	m	class:Entry	file:	access:private
+__unicode__	tekblog/models.py	/^    def __unicode__(self):$/;"	m	class:Series	file:	access:private
+__version__	tekblog/__init__.py	/^__version__ = '.'.join(map(str, VERSION))$/;"	v
+_site	tekblog/feeds.py	/^    _site = Site.objects.get_current()$/;"	v	class:LatestEntriesFeed
+active	tekblog/models.py	/^    def active(self, is_staff=False):$/;"	m	class:ActiveEntryManager	access:public
+admin	tekblog/admin.py	/^from django.contrib import admin$/;"	i
+allow_comments	tekblog/models.py	/^    allow_comments = models.BooleanField(default=True)$/;"	v	class:Entry
+author	setup.py	/^    author='John Anderson',$/;"	v
+author_email	setup.py	/^    author_email='sontek@gmail.com',$/;"	v
+change_form_template	tekblog/admin.py	/^    change_form_template = 'admin\/tekblog\/entry\/change_form.html'$/;"	v	class:EntryAdmin
+choices	tekblog/models.py	/^            choices=formatter.MARKUP_CHOICES)$/;"	v	class:Entry
+classifiers	setup.py	/^    classifiers=[$/;"	v
+content	tekblog/models.py	/^    content = models.TextField()$/;"	v	class:Entry
+content	tekblog/search_indexes.py	/^    content = CharField(model_attr='content')$/;"	v	class:EntryIndex
+copyright	docs/conf.py	/^copyright = u'2011, John Anderson, Thomas Holloway'$/;"	v
+created_on	tekblog/models.py	/^    created_on      = models.DateTimeField(auto_now_add=True, default=datetime.now, editable=False)$/;"	v	class:Entry
+creator_ip	tekblog/models.py	/^    creator_ip      = models.IPAddressField(blank=True, null=True, editable=False)$/;"	v	class:Entry
+datetime	tekblog/converters/blogengine.py	/^from datetime import datetime$/;"	i
+datetime	tekblog/models.py	/^from datetime import datetime$/;"	i
+datetime	tekblog/search_indexes.py	/^import datetime$/;"	i
+datetime	tekblog/urls.py	/^from datetime import datetime$/;"	i
+description	setup.py	/^    description='A django blog engine',$/;"	v
+description	tekblog/feeds.py	/^    description = '%s latest posts feed.' % _site.name$/;"	v	class:LatestEntriesFeed
+description	tekblog/models.py	/^    description = models.TextField()$/;"	v	class:Series
+description	tekblog/models.py	/^    description = models.TextField(null=True, blank=True)$/;"	v	class:Entry
+detail	tekblog/urls.py	/^from tekblog.views import index, detail, search$/;"	i
+detail	tekblog/views.py	/^def detail(request, slug, template='tekblog\/detail.html'):$/;"	f	access:public
+download_url	setup.py	/^    download_url='http:\/\/github.com\/sontek\/django-tekblog',$/;"	v
+draft	tekblog/models.py	/^    draft = models.BooleanField(default=True)$/;"	v	class:Entry
+draft	tekblog/search_indexes.py	/^    draft = BooleanField(model_attr='draft')$/;"	v	class:EntryIndex
+email_notification	tekblog/models.py	/^    email_notification = True$/;"	v	class:EntryModerator
+enable_field	tekblog/models.py	/^    enable_field = 'allow_comments'$/;"	v	class:EntryModerator
+end	docs/make.bat	/^:end$/;"	l
+exclude_patterns	docs/conf.py	/^exclude_patterns = ['_build']$/;"	v
+extensions	docs/conf.py	/^extensions = []$/;"	v
+featured	tekblog/models.py	/^    featured = models.BooleanField(default=False)$/;"	v	class:Entry
+fieldsets	tekblog/admin.py	/^    fieldsets = ($/;"	v	class:EntryAdmin
+format	tekblog/utils.py	/^    def format(self, format, text):$/;"	m	class:Formatter	access:public
+formatter	tekblog/models.py	/^formatter = Formatter()$/;"	v
+forms	tekblog/forms.py	/^from django import forms$/;"	i
+getNodeValue	tekblog/converters/blogengine.py	/^def getNodeValue(node):$/;"	f	access:public
+getValidNode	tekblog/converters/blogengine.py	/^def getValidNode(node):$/;"	f	access:public
+get_absolute_url	tekblog/models.py	/^    def get_absolute_url(self):$/;"	m	class:Entry	access:public
+get_html_content	tekblog/models.py	/^    def get_html_content(self):$/;"	m	class:Entry	access:public
+get_lexer_by_name	tekblog/utils.py	/^from pygments.lexers import get_lexer_by_name, guess_lexer$/;"	i
+get_object	tekblog/feeds.py	/^    def get_object(self, request, topic):$/;"	m	class:TopicFeed	access:public
+get_object_or_404	tekblog/views.py	/^from django.shortcuts import get_object_or_404, render_to_response$/;"	i
+glob	tekblog/converters/blogengine.py	/^import glob$/;"	i
+guess_lexer	tekblog/utils.py	/^from pygments.lexers import get_lexer_by_name, guess_lexer$/;"	i
+haystack	tekblog/search_sites.py	/^import haystack$/;"	i
+highlight	tekblog/utils.py	/^from pygments import highlight$/;"	i
+html_content	tekblog/models.py	/^    html_content = models.TextField(editable=False, blank=True)$/;"	v	class:Entry
+html_static_path	docs/conf.py	/^html_static_path = ['_static']$/;"	v
+html_theme	docs/conf.py	/^html_theme = 'default'$/;"	v
+htmlhelp_basename	docs/conf.py	/^htmlhelp_basename = 'DjangoTekblogdoc'$/;"	v
+index	tekblog/urls.py	/^from tekblog.views import index, detail, search$/;"	i
+index	tekblog/views.py	/^def index(request, page=1, topic=None, template='tekblog\/index.html'):$/;"	f	access:public
+item_description	tekblog/feeds.py	/^    def item_description(self, item):$/;"	m	class:LatestEntriesFeed	access:public
+item_description	tekblog/feeds.py	/^    def item_description(self, item):$/;"	m	class:TopicFeed	access:public
+item_title	tekblog/feeds.py	/^    def item_title(self, item):$/;"	m	class:LatestEntriesFeed	access:public
+item_title	tekblog/feeds.py	/^    def item_title(self, item):$/;"	m	class:TopicFeed	access:public
+items	tekblog/feeds.py	/^    def items(self):$/;"	m	class:LatestEntriesFeed	access:public
+items	tekblog/feeds.py	/^    def items(self, topic):$/;"	m	class:TopicFeed	access:public
+keywords	tekblog/models.py	/^    keywords = models.CharField(max_length=200, null=True, blank=True)$/;"	v	class:Entry
+latex_documents	docs/conf.py	/^latex_documents = [$/;"	v
+license	setup.py	/^    license='BSD',$/;"	v
+linebreaks	tekblog/utils.py	/^    def linebreaks(self, text):$/;"	m	class:Formatter	access:public
+link	tekblog/feeds.py	/^    link = '\/'$/;"	v	class:LatestEntriesFeed
+list_display	tekblog/admin.py	/^    list_display = ('title', 'content', 'tags', 'published_on',$/;"	v	class:EntryAdmin
+long_description	setup.py	/^    long_description='',$/;"	v
+man_pages	docs/conf.py	/^man_pages = [$/;"	v
+markdown	tekblog/utils.py	/^    def markdown(self, text):$/;"	m	class:Formatter	access:public
+markdown	tekblog/utils.py	/^    import markdown$/;"	i
+markup	tekblog/models.py	/^    markup = models.CharField(max_length=4,$/;"	v	class:Entry
+master_doc	docs/conf.py	/^master_doc = 'index'$/;"	v
+models	tekblog/models.py	/^from django.db import models$/;"	i
+moderator	tekblog/models.py	/^from django.contrib.comments.moderation import CommentModerator, moderator$/;"	i
+modified_on	tekblog/models.py	/^    modified_on     = models.DateTimeField(auto_now=True, blank=True, null=True, editable=False)$/;"	v	class:Entry
+name	setup.py	/^    name='django-tekblog',$/;"	v
+objects	tekblog/models.py	/^    objects = ActiveEntryManager()$/;"	v	class:Entry
+ordering	tekblog/models.py	/^        ordering = ('-published_on',)$/;"	v	class:Entry.Meta
+os	docs/conf.py	/^import sys, os$/;"	i
+os	tekblog/converters/blogengine.py	/^import os$/;"	i
+os	tekblog/settings.py	/^import os$/;"	i
+owner	tekblog/models.py	/^    owner = models.ForeignKey(User)$/;"	v	class:Entry
+packages	setup.py	/^    packages=['tekblog'],$/;"	v
+parse	tekblog/converters/blogengine.py	/^from xml.dom.minidom import parse, parseString$/;"	i
+parseString	tekblog/converters/blogengine.py	/^from xml.dom.minidom import parse, parseString$/;"	i
+path	tekblog/converters/blogengine.py	/^from os import path$/;"	i
+pdb	tekblog/utils.py	/^            import pdb;pdb.set_trace()$/;"	i
+permalink	tekblog/models.py	/^from django.db.models import permalink$/;"	i
+post_save	tekblog/search_indexes.py	/^from django.db.models.signals import post_save$/;"	i
+project	docs/conf.py	/^project = u'Django Tekblog'$/;"	v
+published_on	tekblog/models.py	/^    published_on    = models.DateTimeField(blank=True, null=True, default=datetime.now)$/;"	v	class:Entry
+pygments_style	docs/conf.py	/^pygments_style = 'sphinx'$/;"	v
+re	tekblog/utils.py	/^import re$/;"	i
+re	tekblog/views.py	/^import re$/;"	i
+related_content	tekblog/models.py	/^    related_content = models.ManyToManyField('self', null=True, blank=True)$/;"	v	class:Entry
+release	docs/conf.py	/^release = '0.0.5'$/;"	v
+render_to_response	tekblog/views.py	/^from django.shortcuts import get_object_or_404, render_to_response$/;"	i
+save	tekblog/models.py	/^    def save(self):$/;"	m	class:Entry	access:public
+search	tekblog/forms.py	/^    def search(self, is_staff=False):$/;"	m	class:EntrySearchForm	access:public
+search	tekblog/urls.py	/^from tekblog.views import index, detail, search$/;"	i
+search	tekblog/views.py	/^def search(request, template='tekblog\/search.html'):$/;"	f	access:public
+search_form	tekblog/context_processors.py	/^def search_form(request):$/;"	f	access:public
+series	tekblog/models.py	/^    series = models.ForeignKey(Series, blank=True, null=True)$/;"	v	class:Entry
+set_trace	tekblog/utils.py	/^            import pdb;pdb.set_trace()$/;"	i
+settings	tekblog/feeds.py	/^from django.conf import settings$/;"	i
+settings	tekblog/models.py	/^from django.conf import settings$/;"	i
+settings	tekblog/utils.py	/^from django.conf import settings$/;"	i
+settings	tekblog/views.py	/^from django.conf import settings$/;"	i
+setup	setup.py	/^    from distutils.core import setup$/;"	i
+setup	setup.py	/^    from setuptools import setup$/;"	i
+site	tekblog/search_indexes.py	/^from haystack import site$/;"	i
+sites	tekblog/models.py	/^    sites = models.ManyToManyField(Site)$/;"	v	class:Entry
+slug	tekblog/models.py	/^    slug = AutoSlugField(populate_from='title')$/;"	v	class:Entry
+source_suffix	docs/conf.py	/^source_suffix = '.rst'$/;"	v
+sys	docs/conf.py	/^import sys, os$/;"	i
+sys	tekblog/converters/blogengine.py	/^import sys$/;"	i
+tags	tekblog/models.py	/^    tags = TagField()$/;"	v	class:Entry
+tags	tekblog/search_indexes.py	/^    tags = CharField(model_attr='tags')$/;"	v	class:EntryIndex
+templates_path	docs/conf.py	/^templates_path = ['_templates']$/;"	v
+text	tekblog/search_indexes.py	/^    text = CharField(document=True)$/;"	v	class:EntryIndex
+textile	tekblog/utils.py	/^    def textile(self, text):$/;"	m	class:Formatter	access:public
+textile	tekblog/utils.py	/^    import textile$/;"	i
+title	tekblog/feeds.py	/^    title = '%s feed' % _site.name$/;"	v	class:LatestEntriesFeed
+title	tekblog/models.py	/^    title = models.CharField(max_length=100)$/;"	v	class:Series
+title	tekblog/models.py	/^    title = models.CharField(max_length=255)$/;"	v	class:Entry
+title	tekblog/search_indexes.py	/^    title = CharField(model_attr='title')$/;"	v	class:EntryIndex
+url	setup.py	/^    url='http:\/\/github.com\/sontek\/django-tekblog',$/;"	v
+urlpatterns	tekblog/urls.py	/^urlpatterns = patterns('tekblog.views',$/;"	v
+verbose_name_plural	tekblog/models.py	/^        verbose_name_plural = 'Entries'$/;"	v	class:Entry.Meta
+verbose_name_plural	tekblog/models.py	/^        verbose_name_plural = 'Series'$/;"	v	class:Series.Meta
+version	docs/conf.py	/^version = '0.0.5'$/;"	v
+version	setup.py	/^    version=__import__('tekblog').__version__,$/;"	v
