@@ -142,3 +142,34 @@ class SearchViewTests(TestCase):
     """
     Tests basic view functionality within the search.
     """
+    def setUp(self):
+        self.request = Mock()
+        self.request.GET = {}
+
+    @patch('tekblog.views.Paginator')
+    @patch('tekblog.views.EntrySearchForm')
+    @patch('tekblog.views.EmptySearchQuerySet')
+    @patch('tekblog.views.SearchQuerySet')
+    @patch('tekblog.views.Entry.objects.all')
+    @patch('tekblog.views.RequestContext')
+    @patch('tekblog.views.render_to_response')
+    def test_search_no_query_default(self, r2r, rc, all_call, sqs, empty_sqs, frm, pager):
+        search(self.request)
+
+        # Ensure that the entry.objects.all was called,
+        # while the search form was created, but was not validated
+        # since, there was no search term provided
+        all_call.assert_called_with()
+        self.assertTrue(frm.called)
+        self.assertFalse(frm.return_value.is_valid.called)
+
+        # Ensure that render_to_response returns all the right context variables
+        self.assertTrue(r2r.called)
+        context = get_context(r2r)
+        self.assertEquals(context['form'], frm.return_value)
+        self.assertEquals(context['page'], pager.return_value.page.return_value)
+        self.assertEquals(context['paginator'], pager.return_value)
+        self.assertEquals(context['query'], '')
+
+        # The default results should be an empty query set
+        self.assertEquals(context['results'], empty_sqs.return_value)
