@@ -6,6 +6,8 @@
         {% for entry in pager.object_list %}
             <h2><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h2>
             {% include "tekblog/entry_snippet.html" %}
+            <br class="clear" />
+            {% include "tekblog/pager_snippet.html" %}
         {% endfor %}
         {% else %}
             No entries found

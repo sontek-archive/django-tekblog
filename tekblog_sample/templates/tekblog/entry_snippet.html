@@ -1,16 +1,27 @@
 {% load comments %}
 {% load tagging_tags %}
+{% load highlight %}
 {% tags_for_object entry as tag_list %}
 <div class="article">
     <h4>by {{ entry.owner }} {% if entry.owner.first_name %} ({{ entry.owner.first_name }} {{ entry.owner.last_name }}) {% endif %}</h4>
     Topics:
     {% for tag in tag_list %}
-        <a href="{% url tekblog_index tag|urlencode %}">{{ tag }}</a>
+        {% if query %}
+            {% highlight tag with query %}
+        {% else %}
+            <a href="{% url tekblog_index tag|urlencode %}">{{ tag }}</a>
+        {% endif %}
     {% endfor %}
     {% get_comment_count for entry as comment_count %}<br />
     <a href="{{ entry.get_absolute_url}}#responses">{{ comment_count }} Comments</a>
     <div style="clear:both;"></div>
     <div class="articleBody">
-        {{ entry.html_content|safe }}
+        {% with entry.html_content|safe as html_content %}
+            {% if query %}
+                {% highlight html_content with query %}
+            {% else %}
+                {{ html_content}}
+            {% endif %}
+        {% endwith %}
     </div>
 </div>
