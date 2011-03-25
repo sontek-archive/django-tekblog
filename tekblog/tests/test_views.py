@@ -4,6 +4,9 @@ from django.http import Http404
 
 from tekblog.views import index, detail, search
 
+class MockException(Exception):
+    pass
+
 class DefaultViewTest(TestCase):
     """
     Tests the basic functionality of each view.
@@ -15,25 +18,25 @@ class DefaultViewTest(TestCase):
         self.details_template = Mock()
 
     def test_detail_invalid_entry(self):
-        with patch('django.shortcuts.get_object_or_404') as getter:
-            getter.side_effect = Http404()
-            self.assertRaises(Http404, detail, self.request, self.slug)
+        with patch('tekblog.views.get_object_or_404') as getter:
+            getter.side_effect = MockException()
+            self.assertRaises(MockException, detail, self.request, self.slug)
 
     def test_detail_draft_entry_not_staff(self):
-        with patch('django.shortcuts.get_object_or_404') as getter:
+        with patch('tekblog.views.get_object_or_404') as getter:
             getter.side_effect = self.entry
-            self.entry.is_draft = True
-            self.request.user.is_staff = False
+            self.entry.draft.return_value = True
+            self.request.user.is_staff.return_value = False
             self.assertRaises(Http404, detail, self.request, self.slug)
 
-    @patch('django.shortcuts.render_to_response')
-    @patch('django.template.RequestContext')
+    @patch('tekblog.views.render_to_response')
+    @patch('tekblog.views.RequestContext')
     def test_detail_draft_entry_staff(self, renderer, request_context):
-        with patch('django.shortcuts.get_object_or_404') as getter:
+        with patch('tekblog.views.get_object_or_404') as getter:
             getter.side_effect = self.entry
-            self.entry.is_draft = True
-            self.request.user.is_staff = True
+            self.entry.draft.return_value = True
+            self.request.user.is_staff.return_value = True
 
+            detail(self.request, self.slug, template=self.details_template)
             renderer.assert_called_with(self.details_template,
-                {'entry': self.entry},
-                request_context)
+                {'entry': self.entry})
