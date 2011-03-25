@@ -59,7 +59,7 @@ class DetailViewTests(TestCase):
     @patch('tekblog.views.RequestContext')
     def test_detail_not_draft_staff(self, renderer, request_context):
         """
-        Tests that a staff viewing a draft entry can see it.
+        Tests that a anyone viewing an entry can see it.
         """
         with patch('tekblog.views.get_object_or_404') as getter:
             getter.return_value = self.entry
