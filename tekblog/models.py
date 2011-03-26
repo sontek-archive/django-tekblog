@@ -38,9 +38,9 @@ class ActiveEntryManager(models.Manager):
 MARKUP_CHOICE_DEFAULTS = (
     # class, # display text
     (None, 'None'),
-    ('linebreaks', 'Linebreaks'),
-    ('textile_formatter', 'Textile'),
-    ('markdown_formatter', 'Markdown'),
+    ('LinebreaksFormatter', 'Linebreaks'),
+    ('TextileFormatter', 'Textile'),
+    ('MarkdownFormatter', 'Markdown'),
 )
 
 MARKUP_CHOICES = getattr(settings, 'TEKBLOG_MARKUP_CHOICES',

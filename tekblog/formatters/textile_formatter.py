@@ -1,7 +1,10 @@
 import textile
+from BeautifulSoup import BeautifulSoup
+from tekblog.formatters import HtmlCodeBlockFormatter
 
-def parse(text):
+class TextileFormatter(HtmlCodeBlockFormatter):
     """
     Parses textile markup into HTML
     """
-    return textile.textile(text)
+    def parse(self):
+        self.soup = BeautifulSoup(textile.textile(text))

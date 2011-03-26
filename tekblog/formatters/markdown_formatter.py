@@ -1,7 +1,10 @@
 import markdown
+from BeautifulSoup import BeautifulSoup
+from tekblog.formatters import HtmlCodeBlockFormatter
 
-def parse(text):
-    """
-    Parses markdown text into HTML
-    """
-    return markdown.markdown(text)
+class MarkdownFormatter(HtmlCodeBlockFormatter):
+    def parse(self):
+        """
+        Parses markdown text into HTML
+        """
+        self.soup = BeautifulSoup(markdown.markdown(str(self.soup)))
