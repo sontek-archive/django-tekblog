@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django_extensions.db.fields import AutoSlugField
 
-from formatters import parse_content_with_code
+from formatters import get_formatter
 
 class Series(models.Model):
     """ Series Model
@@ -86,6 +86,8 @@ class Entry(models.Model):
 
     def save(self):
         self.html_content = parse_content_with_code(self.markup, self.content)
+        formatter = get_formatter(self.markup)
+        soup = formatter(self.content).get_html()
         super(Entry, self).save()
 
     @permalink

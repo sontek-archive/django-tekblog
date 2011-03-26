@@ -1,6 +1,6 @@
 import textile
 from BeautifulSoup import BeautifulSoup
-from tekblog.formatters import HtmlCodeBlockFormatter
+from tekblog.formatters.htmlblock_formatter import HtmlCodeBlockFormatter
 
 class TextileFormatter(HtmlCodeBlockFormatter):
     """
