@@ -1,0 +1,8 @@
+{% if pager.has_next %}
+    {% url tekblog_index pager.next_page_number as next_url %} 
+    <a href="{{ next_url }}">Older</a>
+{% endif %}
+{% if pager.has_previous %}
+    {% url tekblog_index pager.previous_page_number as previous_url %} 
+    <a href="{{ previous_url }}">Newer</a>
+{% endif %}

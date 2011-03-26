@@ -5,12 +5,10 @@ from datetime import datetime
 from tagging.fields import TagField
 from django.contrib.sites.models import Site
 from django.conf import settings
-from utils import Formatter
 from django.contrib.comments.moderation import CommentModerator, moderator
 from django_extensions.db.fields import AutoSlugField
 
-formatter = Formatter()
-
+from formatters import get_formatter
 
 class Series(models.Model):
     """ Series Model
@@ -37,6 +35,17 @@ class ActiveEntryManager(models.Manager):
                     sites__id__exact=settings.SITE_ID)
 
 
+MARKUP_CHOICE_DEFAULTS = (
+    # class, # display text
+    (None, 'None'),
+    ('LinebreaksFormatter', 'Linebreaks'),
+    ('TextileFormatter', 'Textile'),
+    ('MarkdownFormatter', 'Markdown'),
+)
+
+MARKUP_CHOICES = getattr(settings, 'TEKBLOG_MARKUP_CHOICES',
+        MARKUP_CHOICE_DEFAULTS)
+
 class Entry(models.Model):
     """ Base class for blog entries """
     owner = models.ForeignKey(User)
@@ -49,8 +58,8 @@ class Entry(models.Model):
     slug = AutoSlugField(populate_from='title')
     content = models.TextField()
     html_content = models.TextField(editable=False, blank=True)
-    markup = models.CharField(max_length=4,
-            choices=formatter.MARKUP_CHOICES)
+    markup = models.CharField(max_length=255,
+            choices=MARKUP_CHOICES)
     objects = ActiveEntryManager()
     tags = TagField()
     sites = models.ManyToManyField(Site)
@@ -76,7 +85,9 @@ class Entry(models.Model):
     get_html_content.allow_tags = True
 
     def save(self):
-        self.html_content = formatter.format(self.markup, self.content)
+        self.html_content = parse_content_with_code(self.markup, self.content)
+        formatter = get_formatter(self.markup)
+        soup = formatter(self.content).get_html()
         super(Entry, self).save()
 
     @permalink
