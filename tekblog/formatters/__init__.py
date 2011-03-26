@@ -36,9 +36,10 @@ def parse_content_with_code(formatter_class, text):
         if lang_index > 0:
             lang = text[index:mid_index+1][lang_index+len('class="'):-2]
 
+        import pdb;pdb.set_trace()
         if lang:
             try:
-                lexer = get_lexer_by_name(language, stripnl=True,
+                lexer = get_lexer_by_name(lang, stripnl=True,
                         encoding='UTF-8')
             except ValueError:
                 # We eat this exception because handling if a language
@@ -52,7 +53,7 @@ def parse_content_with_code(formatter_class, text):
                 lexer = get_lexer_by_name('text', stripnl=True,
                             encoding='UTF-8')
 
-        formatter = HtmlFormatter(linenos=SHOW_LINE_NUMBERS, 
+        formatter = HtmlFormatter(linenos=SHOW_LINE_NUMBERS,
                 cssclass='source')
 
         # Format the code as HTML and syntax highlight it
@@ -69,7 +70,7 @@ def parse_content_with_code(formatter_class, text):
 
     # We run the formatted content back through beautiful soup
     # just to make sure its valid HTML
-    soup = BeautifulSoup(parse_content(formatter_class, text))
+    soup = BeautifulSoup(parse_content(formatter_class, str(soup)))
 
     # Find all instances of img tokens where the class has
     # replace-media-url replace all {{ MEDIA_URL }} tokens within the
@@ -87,6 +88,7 @@ def parse_content_with_code(formatter_class, text):
 
     # Replace all the empty code blocks with the syntax highlighted html
     empty_code_blocks = soup.findAll('code', 'removed')
+
     for index, escaped_block in enumerate(escaped_blocks):
         empty_code_blocks[index].replaceWith(escaped_block)
 
