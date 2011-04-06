@@ -1,9 +1,7 @@
-from django.conf import settings
 from django.contrib.sites.models import Site
 from django.contrib.syndication.views import Feed
-from tekblog.models import Entry, Series
+from tekblog.models import Entry
 from tagging.models import TaggedItem, Tag
-
 
 class LatestEntriesFeed(Feed):
     _site = Site.objects.get_current()
