@@ -1,10 +1,15 @@
-from unittest import TestCase
+from django.test import TestCase
 from mock import patch, Mock
+
 from django.http import Http404
+from django.core.paginator import InvalidPage
+from django.test.client import Client
+from django.contrib.auth.models import User
 
 from tekblog.tests.test_helpers import get_context
 from tekblog.views import index, detail, search
-from django.core.paginator import InvalidPage
+from tekblog.models import Entry
+
 
 class DetailViewTests(TestCase):
     """
@@ -146,6 +151,14 @@ class SearchViewTests(TestCase):
         self.request = Mock()
         self.request.GET = {}
 
+        self.staff_user = User.objects.create(username='user1', is_staff=True)
+        self.staff_user.set_password('test')
+        self.user2 = User.objects.create(username='user2')
+        self.user2.set_password('test')
+
+        self.staff_user.save()
+        self.user2.save()
+
     @patch('tekblog.views.Paginator')
     @patch('tekblog.views.EntrySearchForm')
     @patch('tekblog.views.EmptySearchQuerySet')
@@ -156,13 +169,8 @@ class SearchViewTests(TestCase):
     def test_search_no_query_default(self, r2r, rc, all_call, sqs, empty_sqs, frm, pager):
         search(self.request)
 
-        # Ensure that the entry.objects.all was called,
-        # while the search form was created, but was not validated
-        # since, there was no search term provided
-        all_call.assert_called_with()
         self.assertTrue(frm.called)
         self.assertFalse(frm.return_value.is_valid.called)
-        pager.assert_called_with(all_call.return_value, 1000)
 
         # Ensure that render_to_response returns all the right context variables
         self.assertTrue(r2r.called)
@@ -186,11 +194,6 @@ class SearchViewTests(TestCase):
         self.request.GET = {'q': 'tester'}
         search(self.request)
 
-        # Ensure that the entry.objects.all was called,
-        # and that the search form was created and validated
-        # In addition, confirm that the pager was created from the results 
-        # of the given form.search method call
-        all_call.assert_called_with()
         self.assertTrue(frm.called)
         self.assertTrue(frm.return_value.is_valid.called)
         pager.assert_called_with(frm.return_value.search.return_value, 1000)
@@ -221,14 +224,31 @@ class SearchViewTests(TestCase):
             self.request.GET = {'q': 'tester'}
             self.assertRaises(Http404, search, self.request)
 
-            # Ensure that the entry.objects.all was called,
-            # and that the search form was created and validated
-            # In addition, confirm that the pager was created from the results 
-            # of the given form.search method call
-            all_call.assert_called_with()
             self.assertTrue(frm.called)
             self.assertTrue(frm.return_value.is_valid.called)
             paginator.assert_called_with(frm.return_value.search.return_value, 1000)
 
             # Ensure that render_to_response was not called
             self.assertFalse(r2r.called)
+
+    def test_search_only_returns_active(self):
+        """
+        This verifies that only active entries return in the results, unless
+        the user is_staff=True
+        """
+
+        self.client = Client()
+
+        # We are using db instead of mocking so that the haystack indexes
+        # are created
+        entry1 = Entry(owner=self.staff_user, title='Python and Django',
+                draft=True, tags='python, django', markup=None)
+        entry2 = Entry(owner=self.user2, title='Django', draft=False,
+                tags='python, django', markup=None)
+
+        entry1.save()
+        entry2.save()
+
+        self.client.login(username=self.user2.username, password='test')
+        response = self.client.post('/search/?q=python')
+        self.assertTrue(len(response.context['results']), 1)

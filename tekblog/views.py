@@ -45,8 +45,6 @@ def detail(request, slug, template='tekblog/detail.html'):
 
 
 def search(request, template='tekblog/search.html'):
-    entries = Entry.objects.all()
-
     query = ''
     searchqueryset = SearchQuerySet().models(Entry)
     results = EmptySearchQuerySet()
@@ -59,6 +57,9 @@ def search(request, template='tekblog/search.html'):
             results = form.search(is_staff=request.user.is_staff)
             paginator = Paginator(results, 1000)
     else:
+        # Handle no search query
+        #TODO: Make this pull active results
+        entries = Entry.objects.active(is_staff=request.user.is_staff)
         form = EntrySearchForm(searchqueryset=searchqueryset, load_all=True)
         paginator = Paginator(entries, 1000)
 

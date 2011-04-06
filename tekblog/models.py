@@ -22,6 +22,7 @@ class Series(models.Model):
         return unicode(self.title)
 
     class Meta:
+        #TODO: Translate this
         verbose_name_plural = 'Series'
 
 
@@ -59,7 +60,7 @@ class Entry(models.Model):
     content = models.TextField()
     html_content = models.TextField(editable=False, blank=True)
     markup = models.CharField(max_length=255,
-            choices=MARKUP_CHOICES)
+            choices=MARKUP_CHOICES, blank=True, null=True)
     objects = ActiveEntryManager()
     tags = TagField()
     sites = models.ManyToManyField(Site)
@@ -85,9 +86,13 @@ class Entry(models.Model):
     get_html_content.allow_tags = True
 
     def save(self):
-        self.html_content = parse_content_with_code(self.markup, self.content)
         formatter = get_formatter(self.markup)
-        soup = formatter(self.content).get_html()
+
+        if formatter:
+            self.html_content = str(formatter(self.content).get_html())
+        else:
+            self.html_content = self.content
+
         super(Entry, self).save()
 
     @permalink
