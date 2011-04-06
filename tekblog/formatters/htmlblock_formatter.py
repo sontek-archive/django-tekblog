@@ -93,4 +93,4 @@ class HtmlCodeBlockFormatter(object):
         self.parse()
         self.post_parse()
 
-        return self.soup
+        return str(self.soup)

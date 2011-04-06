@@ -89,7 +89,7 @@ class Entry(models.Model):
         formatter = get_formatter(self.markup)
 
         if formatter:
-            self.html_content = str(formatter(self.content).get_html())
+            self.html_content = formatter(self.content).get_html()
         else:
             self.html_content = self.content
 
