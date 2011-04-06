@@ -1,6 +1,8 @@
 # Requirements installed via pip
 django
-BeautifulSoup>=3.0.8
-django-tagging>=0.3
-django-haystack==1.0.1-final
+BeautifulSoup
+django-tagging
+django-haystack
+django-extensions
 sphinx
+whoosh

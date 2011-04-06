@@ -140,8 +140,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "tekblog.context_processors.search_form",
 )
 
+from tekblog.settings import *
+
 try:
-    from tekblog.settings import *
     from local_settings import *
 except ImportError: # pragma: no cover
     pass # pragma: no cover
