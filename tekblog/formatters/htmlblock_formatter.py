@@ -51,11 +51,8 @@ class HtmlCodeBlockFormatter(object):
                 lexer = None
 
             if not lexer:
-                try:
-                    lexer = guess_lexer(code_to_esc, stripnl=True)
-                except ValueError as e:
-                    lexer = get_lexer_by_name('text', stripnl=True,
-                                encoding='UTF-8')
+                lexer = get_lexer_by_name('text', stripnl=True,
+                        encoding='UTF-8')
 
             formatter = HtmlFormatter(linenos=SHOW_LINE_NUMBERS,
                     cssclass='source')
@@ -79,9 +76,6 @@ class HtmlCodeBlockFormatter(object):
         self.soup = BeautifulSoup(str(soup))
         self.escaped_blocks = escaped_blocks
 
-    def parse(self):
-        pass
-
     def post_parse(self):
         # Replace all the empty code blocks with the syntax highlighted html
         empty_code_blocks = self.soup.findAll('code', 'removed')
@@ -90,7 +84,6 @@ class HtmlCodeBlockFormatter(object):
 
     def get_html(self):
         self.pre_parse()
-        self.parse()
         self.post_parse()
 
         return str(self.soup)

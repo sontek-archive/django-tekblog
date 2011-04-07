@@ -1,5 +1,5 @@
 from unittest import TestCase
-from mock import patch, Mock
+from mock import Mock
 from tekblog.formatters import get_formatter
 from tekblog.formatters.htmlblock_formatter import HtmlCodeBlockFormatter
 from tekblog.formatters.markdown_formatter import MarkdownFormatter
@@ -95,10 +95,8 @@ class HtmlCodeBlockTests(TestCase):
     def test_get_html_calls_all_parse_methods(self):
         self.formatter.soup = Mock()
         self.formatter.pre_parse = Mock()
-        self.formatter.parse = Mock()
         self.formatter.post_parse = Mock()
         self.formatter.get_html()
 
         self.formatter.pre_parse.assert_called_once_with()
-        self.formatter.parse.assert_called_once_with()
         self.formatter.post_parse.assert_called_once_with()
