@@ -53,7 +53,7 @@ class HtmlCodeBlockFormatter(object):
             if not lexer:
                 try:
                     lexer = guess_lexer(code_to_esc, stripnl=True)
-                except ValueError, e:
+                except ValueError as e:
                     lexer = get_lexer_by_name('text', stripnl=True,
                                 encoding='UTF-8')
 

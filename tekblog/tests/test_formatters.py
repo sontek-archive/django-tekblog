@@ -2,6 +2,7 @@ from unittest import TestCase
 from mock import patch, Mock
 from tekblog.formatters import get_formatter
 from tekblog.formatters.htmlblock_formatter import HtmlCodeBlockFormatter
+from tekblog.formatters.markdown_formatter import MarkdownFormatter
 import re
 
 class FormattersTests(TestCase):
@@ -21,6 +22,26 @@ class FormattersTests(TestCase):
         for formatter in formatters:
             obj = get_formatter(formatter)
             self.assertEquals(formatter, obj.__name__)
+
+class MarkdownTests(TestCase):
+    def setUp(self):
+        self.content = """Hello,
+
+    #!python
+        def foo(self):
+            return 'bar'
+
+foo bar baz
+
+    :::python
+        def foo(self):
+            return 'bar'
+        """
+        self.formatter = MarkdownFormatter(self.content)
+
+    def test_parses_code_blocks_properly(self):
+        html = self.formatter.get_html()
+        self.assertTrue(html.find('python') < 0)
 
 class HtmlCodeBlockTests(TestCase):
     def setUp(self):
