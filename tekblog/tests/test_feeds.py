@@ -56,18 +56,13 @@ class LatestEntriesFeedTest(TestCase):
 
 
 class FeedItem(Mock):
-    def __init__(self, title, items, html_content):
+    def __init__(self, title, html_content):
         self.title_mock = Mock(return_value=title)
-        self.items_mock = Mock(return_value=items)
         self.html_content_mock = Mock(return_value=html_content)
 
     @property
     def title(self):
         return self.title_mock()
-
-    @property
-    def items(self):
-        return self.items_mock()
 
     @property
     def html_content(self):
@@ -105,14 +100,14 @@ class TopicFeedTest(TestCase):
         tag_get.assert_called_with(name=topic)
 
     def test_item_title(self):
-        item = FeedItem('foo', [], 'baz')
+        item = FeedItem('foo', 'baz')
         feed = TopicFeed()
         title = feed.item_title(item)
         self.assertEqual(title, 'foo')
         item.title_mock.assert_call_once_with()
 
     def test_item_description(self):
-        item = FeedItem('foo', [], 'baz')
+        item = FeedItem('foo', 'baz')
         feed = TopicFeed()
         description = feed.item_description(item)
         self.assertEqual(description, 'baz')
