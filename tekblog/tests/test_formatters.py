@@ -17,7 +17,7 @@ class FormattersTests(TestCase):
         Tests that the proper formatter is returned
         """
         formatters = ['MarkdownFormatter', 'LinebreaksFormatter',
-                'TextileFormatter']
+                'HtmlCodeBlockFormatter']
 
         for formatter in formatters:
             obj = get_formatter(formatter)

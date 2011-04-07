@@ -39,8 +39,8 @@ class ActiveEntryManager(models.Manager):
 MARKUP_CHOICE_DEFAULTS = (
     # class, # display text
     (None, 'None'),
+    ('HtmlCodeBlockFormatter', 'Html'),
     ('LinebreaksFormatter', 'Linebreaks'),
-    ('TextileFormatter', 'Textile'),
     ('MarkdownFormatter', 'Markdown'),
 )
 
