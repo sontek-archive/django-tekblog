@@ -108,7 +108,7 @@ class Entry(models.Model):
 
     class Meta:
         verbose_name_plural = 'Entries'
-        ordering = ('-published_on',)
+        ordering = ('-featured', '-published_on',)
 
 
 class EntryModerator(CommentModerator):

@@ -34,3 +34,19 @@ class ModelsTestCase(TestCase):
         entry = Entry(owner=self.user2, title='foo', content='bar')
         entry.save()
         self.assertEqual(u'foo', str(entry))
+
+    def test_featured_entry_is_first(self):
+        """ Featured entries should always be at the beginning of the list """
+        entry1 = Entry(owner=self.user2, title='foo1', content='bar',
+                draft=False)
+        entry1.save()
+
+        entry2 = Entry(owner=self.user2, title='foo2', content='bar',
+                featured=True, draft=False)
+        entry2.save()
+
+        entry3 = Entry(owner=self.user2, title='foo3', content='bar',
+                draft=False)
+        entry3.save()
+
+        self.assertEqual(entry2, Entry.objects.all()[0])
