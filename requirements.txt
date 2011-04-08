@@ -10,3 +10,4 @@ markdown
 textile
 mock
 coverage
+pep8
