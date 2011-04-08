@@ -2,4 +2,14 @@
 {% block content %}
     <h2>{{ entry.title }}</a></h2>
     {% include "tekblog/entry_snippet.html" %}
+    {% with entry.get_related as related %}
+        {% if related %}
+            You might also be interested in:
+            <ul>
+                {% for related in entry.get_related %}
+                    <li><a href="{{ related.get_absolute_url }}">{{ related.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
 {% endblock %}

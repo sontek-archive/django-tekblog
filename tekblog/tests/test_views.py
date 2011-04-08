@@ -242,13 +242,13 @@ class SearchViewTests(TestCase):
         # We are using db instead of mocking so that the haystack indexes
         # are created
         entry1 = Entry(owner=self.staff_user, title='Python and Django',
-                draft=True, tags='python, django', markup=None)
+                draft=True, markup=None, tags='python, django')
+
         entry2 = Entry(owner=self.user2, title='Django', draft=False,
-                tags='python, django', markup=None)
+                markup=None, tags='python, django')
 
         entry1.save()
         entry2.save()
-
         self.client.login(username=self.user2.username, password='test')
         response = self.client.post('/search/?q=python')
         self.assertTrue(len(response.context['results']), 1)

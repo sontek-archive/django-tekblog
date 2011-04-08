@@ -3,6 +3,7 @@ from django.db.models import permalink
 from django.contrib.auth.models import User
 from datetime import datetime
 from tagging.fields import TagField
+from tagging.managers import ModelTaggedItemManager
 from django.contrib.sites.models import Site
 from django.conf import settings
 from django.contrib.comments.moderation import CommentModerator, moderator
@@ -35,7 +36,6 @@ class ActiveEntryManager(models.Manager):
             return self.filter(draft=False, published_on__lte=datetime.now,
                     sites__id__exact=settings.SITE_ID)
 
-
 MARKUP_CHOICE_DEFAULTS = (
     # class, # display text
     (None, 'None'),
@@ -62,8 +62,8 @@ class Entry(models.Model):
     markup = models.CharField(max_length=255,
             choices=MARKUP_CHOICES, blank=True, null=True)
     objects = ActiveEntryManager()
-    tags = TagField()
     sites = models.ManyToManyField(Site)
+    tags = TagField()
 
     # Dates
     created_on = models.DateTimeField(default=datetime.now)
@@ -76,6 +76,32 @@ class Entry(models.Model):
 
     # Used to display "You might be interested in..."
     related_content = models.ManyToManyField('self', null=True, blank=True)
+
+    def get_related(self, max=10):
+        """
+            Returns related entries based on related_content and similar
+            tags
+        """
+        related = self.related_content.all()
+
+        if len(related) >= max:
+            return related[:max]
+
+        m = ModelTaggedItemManager()
+        tag_related = m.related_to(self, queryset=Entry.objects.active(),
+                num=max-len(related))
+
+        tag_related = [e for e in tag_related if not e in related]
+
+        related_items = []
+
+        for e in related:
+            related_items.append(e)
+
+        for e in tag_related:
+            related_items.append(e)
+
+        return related_items[:max]
 
     def get_html_content(self):
         """We can only assign allow_tags to methods"""
@@ -109,7 +135,6 @@ class Entry(models.Model):
     class Meta:
         verbose_name_plural = 'Entries'
         ordering = ('-featured', '-published_on',)
-
 
 class EntryModerator(CommentModerator):
     email_notification = True
