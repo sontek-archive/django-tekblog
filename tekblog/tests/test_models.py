@@ -3,6 +3,7 @@ from tekblog.models import Series, Entry
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 
+
 class ModelsTestCase(TestCase):
     def setUp(self):
 
@@ -13,6 +14,7 @@ class ModelsTestCase(TestCase):
 
         self.staff_user.save()
         self.user2.save()
+
     def test_series_unicode(self):
         series = Series(title='foo', description='bar')
         series.save()
@@ -33,7 +35,6 @@ class ModelsTestCase(TestCase):
 
         # clean up the objecs so haystack doesn't have indexes laying around
         entry.delete()
-
 
     def test_entry_unicode(self):
         entry = Entry(owner=self.user2, title='foo', content='bar')
@@ -63,7 +64,6 @@ class ModelsTestCase(TestCase):
         entry1.delete()
         entry2.delete()
         entry3.delete()
-
 
     def test_get_related(self):
         entry1 = Entry(owner=self.user2, title='foo1', content='bar',
@@ -102,5 +102,3 @@ class ModelsTestCase(TestCase):
         entry2.delete()
         entry3.delete()
         entry4.delete()
-
-

@@ -1,5 +1,8 @@
 from django.conf import settings
-import os, sys, glob
+import os
+import sys
+import glob
+
 import inspect
 
 #def format_content(formatter_class, text):
@@ -29,6 +32,7 @@ import inspect
 
 #    return str(soup)
 
+
 def load_modules(filemask='*.py', ignore_list=('__init__.py', )):
     """
     This loads all modules from the formatters directory
@@ -50,6 +54,7 @@ def load_modules(filemask='*.py', ignore_list=('__init__.py', )):
 
     return modules
 
+
 def get_formatter(formatter_class):
     """
     This will generate HTML for a specific markup language but will not
@@ -60,6 +65,7 @@ def get_formatter(formatter_class):
     formatter = get_module_classes(current_module, formatter_class)
 
     return formatter
+
 
 def get_module_classes(module, formatter_class):
     """
@@ -78,4 +84,3 @@ def get_module_classes(module, formatter_class):
 
             if cls:
                 return cls
-

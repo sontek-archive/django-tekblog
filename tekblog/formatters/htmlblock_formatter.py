@@ -29,15 +29,15 @@ class HtmlCodeBlockFormatter(object):
             last_index = self.text.find('</code>', mid_index)
 
             # Whats between <code> and </code>
-            code_to_esc = self.text[mid_index+1:last_index]
+            code_to_esc = self.text[mid_index + 1:last_index]
 
             lang = None
 
-            lang_index = self.text[index:mid_index+1].find('class=')
+            lang_index = self.text[index:mid_index + 1].find('class=')
 
             if lang_index > 0:
-                lang = self.text[index:mid_index+1]
-                lang = lang[lang_index+len('class="'):-2]
+                lang = self.text[index:mid_index + 1]
+                lang = lang[lang_index + len('class="'):-2]
 
             if lang:
                 try:

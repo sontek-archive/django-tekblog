@@ -7,6 +7,7 @@ from mock import patch, Mock
 from tekblog.feeds import LatestEntriesFeed, TopicFeed
 from tekblog.models import Entry
 
+
 class LatestEntriesFeedTest(TestCase):
     def setUp(self):
         self.user = User.objects.create(username='user1')
@@ -26,7 +27,6 @@ class LatestEntriesFeedTest(TestCase):
 
         entry1.save()
         entry2.save()
-
 
     @patch('tekblog.models.Entry.objects.active')
     def test_items(self, active_method):
@@ -68,6 +68,7 @@ class FeedItem(Mock):
     def html_content(self):
         return self.html_content_mock()
 
+
 class TopicFeedTest(TestCase):
     @patch('tagging.models.TaggedItem.objects.get_by_model')
     def test_items(self, get_by_model_method):
@@ -86,7 +87,8 @@ class TopicFeedTest(TestCase):
             feed = TopicFeed()
             feed.items(topic)
 
-            get_by_model_method.assert_called_with(results, '"%s"' % topic.name)
+            get_by_model_method.assert_called_with(results, '"%s"'
+                    % topic.name)
             active_call.assert_called_with()
 
     @patch('tagging.models.Tag.objects.get')

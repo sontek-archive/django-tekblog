@@ -21,7 +21,6 @@ class DetailViewTests(TestCase):
         self.slug = 'Hello world'
         self.details_template = Mock()
 
-
     def test_detail_invalid_entry(self):
         """
         Tests that an invalid entry raises an exception on object_or_404.
@@ -29,7 +28,6 @@ class DetailViewTests(TestCase):
         with patch('tekblog.views.get_object_or_404') as getter:
             getter.side_effect = Http404()
             self.assertRaises(Http404, detail, self.request, self.slug)
-
 
     def test_detail_draft_entry_not_staff(self):
         """
@@ -41,7 +39,6 @@ class DetailViewTests(TestCase):
             self.request.user.is_staff = False
 
             self.assertRaises(Http404, detail, self.request, self.slug)
-
 
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
@@ -56,8 +53,7 @@ class DetailViewTests(TestCase):
 
             detail(self.request, self.slug, template=self.details_template)
             self.assertTrue(r2r.called)
-            self.assertTrue(get_context(r2r).has_key('entry'))
-
+            self.assertTrue('entry' in get_context(r2r))
 
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
@@ -72,7 +68,7 @@ class DetailViewTests(TestCase):
 
             detail(self.request, self.slug, template=self.details_template)
             self.assertTrue(r2r.called)
-            self.assertTrue(get_context(r2r).has_key('entry'))
+            self.assertTrue('entry' in get_context(r2r))
 
 
 class IndexViewTests(TestCase):
@@ -83,14 +79,13 @@ class IndexViewTests(TestCase):
         self.request = Mock()
         self.results = Mock()
 
-
     @patch('tekblog.views.Paginator')
     @patch('tekblog.views.TaggedItem.objects.get_by_model')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
     def test_default_index(self, r2r, rc, get_by_model_call, paginator):
         """
-        Tests that the normal flow of getting active items and rendering 
+        Tests that the normal flow of getting active items and rendering
         a response is called without a call to the get topics.
         """
         with patch('tekblog.views.Entry.objects.active') as active_call:
@@ -100,8 +95,7 @@ class IndexViewTests(TestCase):
             self.assertTrue(active_call.called)
             self.assertFalse(get_by_model_call.called)
             self.assertTrue(r2r.called)
-            self.assertTrue(get_context(r2r).has_key('pager'))
-
+            self.assertTrue('pager' in get_context(r2r))
 
     @patch('tekblog.views.Paginator')
     @patch('tekblog.views.TaggedItem.objects.get_by_model')
@@ -121,14 +115,14 @@ class IndexViewTests(TestCase):
             self.assertTrue(active_call.called)
             self.assertTrue(get_by_model_call.called)
             self.assertTrue(r2r.called)
-            self.assertTrue(get_context(r2r).has_key('pager'))
-
+            self.assertTrue('pager' in get_context(r2r))
 
     @patch('tekblog.views.Entry.objects.active')
     @patch('tekblog.views.TaggedItem.objects.get_by_model')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
-    def test_default_index_invalid_page(self, r2r, rc, get_by_model_call, active_call):
+    def test_default_index_invalid_page(self, r2r, rc, get_by_model_call,
+            active_call):
         """
         Tests that the normal flow of getting active items and rendering
         is not done as a result of an invalid page thus returning a 404.
@@ -166,17 +160,20 @@ class SearchViewTests(TestCase):
     @patch('tekblog.views.Entry.objects.all')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
-    def test_search_no_query_default(self, r2r, rc, all_call, sqs, empty_sqs, frm, pager):
+    def test_search_no_query_default(self, r2r, rc, all_call, sqs, empty_sqs,
+            frm, pager):
         search(self.request)
 
         self.assertTrue(frm.called)
         self.assertFalse(frm.return_value.is_valid.called)
 
-        # Ensure that render_to_response returns all the right context variables
+        # Ensure that render_to_response returns all the right context
+        # variables
         self.assertTrue(r2r.called)
         context = get_context(r2r)
         self.assertEquals(context['form'], frm.return_value)
-        self.assertEquals(context['page'], pager.return_value.page.return_value)
+        self.assertEquals(context['page'],
+                pager.return_value.page.return_value)
         self.assertEquals(context['paginator'], pager.return_value)
         self.assertEquals(context['query'], '')
 
@@ -190,7 +187,8 @@ class SearchViewTests(TestCase):
     @patch('tekblog.views.Entry.objects.all')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
-    def test_search_query_no_results(self, r2r, rc, all_call, sqs, empty_sqs, frm, pager):
+    def test_search_query_no_results(self, r2r, rc, all_call, sqs, empty_sqs,
+            frm, pager):
         self.request.GET = {'q': 'tester'}
         search(self.request)
 
@@ -198,17 +196,19 @@ class SearchViewTests(TestCase):
         self.assertTrue(frm.return_value.is_valid.called)
         pager.assert_called_with(frm.return_value.search.return_value, 1000)
 
-        # Ensure that render_to_response returns all the right context variables
+        # Ensure that render_to_response returns all the right context
+        # variables
         self.assertTrue(r2r.called)
         context = get_context(r2r)
         self.assertEquals(context['form'], frm.return_value)
-        self.assertEquals(context['page'], pager.return_value.page.return_value)
+        self.assertEquals(context['page'],
+                pager.return_value.page.return_value)
         self.assertEquals(context['paginator'], pager.return_value)
         self.assertEquals(context['query'], 'tester')
 
         # The results should be from the values returned from search
-        self.assertEquals(context['results'], frm.return_value.search.return_value)
-
+        self.assertEquals(context['results'],
+                frm.return_value.search.return_value)
 
     @patch('tekblog.views.EntrySearchForm')
     @patch('tekblog.views.EmptySearchQuerySet')
@@ -216,7 +216,8 @@ class SearchViewTests(TestCase):
     @patch('tekblog.views.Entry.objects.all')
     @patch('tekblog.views.RequestContext')
     @patch('tekblog.views.render_to_response')
-    def test_search_query_invalid_page(self, r2r, rc, all_call, sqs, empty_sqs, frm):
+    def test_search_query_invalid_page(self, r2r, rc, all_call, sqs,
+            empty_sqs, frm):
         with patch('tekblog.views.Paginator') as paginator:
             instance = paginator.return_value
             instance.page.side_effect = InvalidPage()
@@ -226,7 +227,8 @@ class SearchViewTests(TestCase):
 
             self.assertTrue(frm.called)
             self.assertTrue(frm.return_value.is_valid.called)
-            paginator.assert_called_with(frm.return_value.search.return_value, 1000)
+            paginator.assert_called_with(frm.return_value.search.return_value,
+                    1000)
 
             # Ensure that render_to_response was not called
             self.assertFalse(r2r.called)

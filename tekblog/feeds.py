@@ -3,6 +3,7 @@ from django.contrib.syndication.views import Feed
 from tekblog.models import Entry
 from tagging.models import TaggedItem, Tag
 
+
 class LatestEntriesFeed(Feed):
     _site = Site.objects.get_current()
     link = '/'

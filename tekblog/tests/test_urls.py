@@ -4,11 +4,6 @@ from tekblog.models import Entry
 
 from django.test.client import Client
 
-#        url(r'^$', index, name='tekblog_index'),
-#        url(r'^topic/(?P<topic>[^/]*)/?$', index, name='tekblog_index'),
-#        url(r'^search/$', search, name='tekblog_search'),
-#        url(r'^(?P<page>\d*)/?$', index, name='tekblog_index'),
-#        url(r'^(?P<slug>[^/]*)/?$', detail, name='tekblog_detail'),
 
 class SimpleUrlViewTests(TestCase):
     def setUp(self):

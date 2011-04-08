@@ -11,6 +11,7 @@ from django_extensions.db.fields import AutoSlugField
 
 from formatters import get_formatter
 
+
 class Series(models.Model):
     """ Series Model
         Link a collection of blogs together so the user
@@ -46,6 +47,7 @@ MARKUP_CHOICE_DEFAULTS = (
 
 MARKUP_CHOICES = getattr(settings, 'TEKBLOG_MARKUP_CHOICES',
         MARKUP_CHOICE_DEFAULTS)
+
 
 class Entry(models.Model):
     """ Base class for blog entries """
@@ -89,7 +91,7 @@ class Entry(models.Model):
 
         m = ModelTaggedItemManager()
         tag_related = m.related_to(self, queryset=Entry.objects.active(),
-                num=max-len(related))
+                num=max - len(related))
 
         tag_related = [e for e in tag_related if not e in related]
 
@@ -135,6 +137,7 @@ class Entry(models.Model):
     class Meta:
         verbose_name_plural = 'Entries'
         ordering = ('-featured', '-published_on',)
+
 
 class EntryModerator(CommentModerator):
     email_notification = True

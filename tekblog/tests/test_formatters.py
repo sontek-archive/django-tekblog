@@ -5,6 +5,7 @@ from tekblog.formatters.htmlblock_formatter import HtmlCodeBlockFormatter
 from tekblog.formatters.markdown_formatter import MarkdownFormatter
 import re
 
+
 class FormattersTests(TestCase):
     """
     Tests the basic functionality of our formatters
@@ -22,6 +23,7 @@ class FormattersTests(TestCase):
         for formatter in formatters:
             obj = get_formatter(formatter)
             self.assertEquals(formatter, obj.__name__)
+
 
 class MarkdownTests(TestCase):
     def setUp(self):
@@ -42,6 +44,7 @@ foo bar baz
     def test_parses_code_blocks_properly(self):
         html = self.formatter.get_html()
         self.assertTrue(html.find('python') < 0)
+
 
 class HtmlCodeBlockTests(TestCase):
     def setUp(self):

@@ -144,5 +144,5 @@ from tekblog.settings import *
 
 try:
     from local_settings import *
-except ImportError: # pragma: no cover
-    pass # pragma: no cover
+except ImportError:  # pragma: no cover
+    pass  # pragma: no cover
