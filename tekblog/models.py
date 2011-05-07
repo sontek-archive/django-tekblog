@@ -40,6 +40,7 @@ class ActiveEntryManager(models.Manager):
 MARKUP_CHOICE_DEFAULTS = (
     # class, # display text
     (None, 'None'),
+    ('RestructuredTextFormatter', 'ReStructured Text'),
     ('HtmlCodeBlockFormatter', 'Html'),
     ('LinebreaksFormatter', 'Linebreaks'),
     ('MarkdownFormatter', 'Markdown'),
