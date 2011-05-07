@@ -8,6 +8,7 @@ sphinx
 whoosh
 markdown
 textile
+docutils
 mock
 coverage
 pep8
