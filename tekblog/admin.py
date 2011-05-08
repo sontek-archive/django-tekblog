@@ -3,6 +3,8 @@ from tekblog.models import Series, Entry
 
 
 class EntryAdmin(admin.ModelAdmin):
+    ordering = ('-published_on', 'draft')
+
     list_display = ('title', 'content', 'tags', 'published_on',
             'draft')
 
