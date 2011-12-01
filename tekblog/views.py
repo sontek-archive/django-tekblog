@@ -28,7 +28,7 @@ def index(request, page=1, topic=None, template='tekblog/index.html'):
 
     try:
         pager = paginator.page(page)
-    except InvalidPage, EmptyPage:
+    except (InvalidPage, EmptyPage):
         raise Http404("No such page of results!")
 
     return render_to_response(template, {'pager': pager},
@@ -45,7 +45,7 @@ def detail(request, slug, template='tekblog/detail.html'):
 
 
 def search(request, template='tekblog/search.html'):
-    query = ''
+    query = None
     searchqueryset = SearchQuerySet().models(Entry)
     results = EmptySearchQuerySet()
 
@@ -65,7 +65,7 @@ def search(request, template='tekblog/search.html'):
 
     try:
         page = paginator.page(int(request.GET.get('page', 1)))
-    except InvalidPage, EmptyPage:
+    except (InvalidPage, EmptyPage):
         raise Http404("No such page of results!")
 
     context = {
